@@ -13,10 +13,7 @@ class ForwardingTableNative:
 
     def add_entry(self, prefix: str, intf: str, next_hop: str) -> None:
         '''Add forwarding entry mapping prefix to interface and next hop
-        IP address.
-
-        prefix: str
-        '''
+        IP address.'''
 
         if '/' not in prefix:
             if ':' in prefix:
@@ -31,10 +28,7 @@ class ForwardingTableNative:
         sys_cmd_pid(['add_route', prefix, intf, next_hop], check=True)
 
     def remove_entry(self, prefix: str) -> None:
-        '''Remove the forwarding entry matching prefix.
-
-        prefix: str
-        '''
+        '''Remove the forwarding entry matching prefix.'''
 
         if '/' not in prefix:
             if ':' in prefix:
@@ -44,10 +38,7 @@ class ForwardingTableNative:
         sys_cmd_pid(['del_route', prefix], check=True)
 
     def flush(self, family: int=None, global_only: bool=True) -> None:
-        '''Flush the routing table.
-
-        prefix: str
-        '''
+        '''Flush the routing table.'''
 
         routes = self.get_all_entries(family=family, \
                 resolve=False, global_only=global_only)
@@ -59,10 +50,7 @@ class ForwardingTableNative:
     def get_entry(self, address: str) -> tuple[str, str]:
         '''Return the subnet entry having the longest prefix match of
         address.  The entry is a tuple consisting of interface and
-        next-hop IP address.  If there is no match, return None, None.
-
-        address: str, x.x.x.x or x:x::x
-        '''
+        next-hop IP address.  If there is no match, return None, None.'''
 
         try:
             route = self._ip.route('get', dst=address)[0]
@@ -84,6 +72,7 @@ class ForwardingTableNative:
 
     def get_all_entries(self, family: int=None, resolve: bool=False,
             global_only: bool=True):
+
         routes = self._ip.get_routes()
         entries = {}
         for route in routes:
