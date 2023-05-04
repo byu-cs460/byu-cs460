@@ -5,11 +5,11 @@ from cougarnet.sim.host import BaseHost
 
 class Switch(BaseHost):
     def __init__(self):
-        super(Switch, self).__init__()
+        super().__init__()
 
         # do any initialization here...
 
-    def _handle_frame(self, frame, intf):
+    def _handle_frame(self, frame: bytes, intf: str) -> None:
         print('Received frame: %s' % repr(frame))
 
 def main():
