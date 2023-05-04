@@ -38,12 +38,9 @@ class ForwardingTable(object):
     def __init__(self):
         self.entries = {}
 
-    def add_entry(self, prefix, intf, next_hop):
+    def add_entry(self, prefix: str, intf: str, next_hop: str) -> None:
         '''Add forwarding entry mapping prefix to interface and next hop
-        IP address.
-
-        prefix: str
-        '''
+        IP address.'''
 
         prefix = Prefix(prefix)
 
@@ -52,23 +49,16 @@ class ForwardingTable(object):
 
         self.entries[prefix] = (intf, next_hop)
 
-    def remove_entry(self, prefix):
-        '''Remove the forwarding entry matching prefix.
-
-        prefix: str
-        '''
+    def remove_entry(self, prefix: str) -> None:
+        '''Remove the forwarding entry matching prefix.'''
 
         prefix = Prefix(prefix)
 
         if prefix in self.entries:
             del self.entries[prefix]
 
-    def flush(self, family=None, global_only=True):
-        '''
-        Flush the routing table.
-
-        prefix: str
-        '''
+    def flush(self, family: int=None, global_only: bool=True) -> None:
+        '''Flush the routing table.'''
 
         routes = self.get_all_entries(family=family, \
                 resolve=False, global_only=global_only)
@@ -76,13 +66,20 @@ class ForwardingTable(object):
         for prefix in routes:
             self.remove_entry(prefix)
 
-    def get_entry(self, address):
+    def get_entry(self, address: str) -> tuple[str, str]:
         '''Return the subnet entry having the longest prefix match of
         address.  The entry is a tuple consisting of interface and
-        next-hop IP address.  If there is no match, return None, None.
-
-        address: str, x.x.x.x or x:x::x
-        '''
+        next-hop IP address.  If there is no match, return None, None.'''
 
         #FIXME - complete the rest of the method
         return None, None
+
+    def get_all_entries(self, family: int=None,
+            resolve: bool=False, global_only: bool=True):
+
+        entries = {}
+        for prefix in self.entries:
+            intf, next_hop = self.entries[prefix]
+            if next_hop is not None or not global_only:
+                entries[prefix] = (intf, next_hop)
+        return entries
