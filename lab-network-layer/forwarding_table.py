@@ -64,7 +64,7 @@ class ForwardingTable(object):
                 resolve=False, global_only=global_only)
 
         for prefix in routes:
-            self.remove_entry(prefix)
+            del self.entries[prefix]
 
     def get_entry(self, address: str) -> tuple[str, str]:
         '''Return the subnet entry having the longest prefix match of
