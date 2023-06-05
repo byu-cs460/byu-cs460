@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import asyncio
 import json
 import socket
@@ -127,3 +129,11 @@ class DVRouter(BaseHost):
 
     def send_dv(self) -> None:
         print('Sending DV')
+
+def main():
+    router = DVRouter()
+    router.init_dv()
+    router.run()
+
+if __name__ == '__main__':
+    main()
