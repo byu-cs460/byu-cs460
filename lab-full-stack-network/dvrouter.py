@@ -144,10 +144,7 @@ class DVRouter(TransportHost):
     def send_dv(self) -> None:
         print('Sending DV')
 
-
 def main():
-    hostname = socket.gethostname()
-
     router = DVRouter()
     router.init_dv()
     router.run()
