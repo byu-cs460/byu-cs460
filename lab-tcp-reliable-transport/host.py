@@ -9,16 +9,17 @@ from cougarnet.util import \
         mac_str_to_binary, mac_binary_to_str, \
         ip_str_to_binary, ip_binary_to_str
 
-#From /usr/include/linux/if_ether.h:
+# From /usr/include/linux/if_ether.h:
 ETH_P_IP = 0x0800 # Internet Protocol packet
 ETH_P_ARP = 0x0806 # Address Resolution packet
 
-#From /usr/include/net/if_arp.h:
+# From /usr/include/net/if_arp.h:
 ARPHRD_ETHER = 1 # Ethernet 10Mbps
 ARPOP_REQUEST = 1 # ARP request
 ARPOP_REPLY = 2 # ARP reply
 
-#From /usr/include/linux/in.h:
+# From /usr/include/linux/in.h:
+IPPROTO_ICMP = 1 # Internet Control Message Protocol
 IPPROTO_TCP = 6 # Transmission Control Protocol
 IPPROTO_UDP = 17 # User Datagram Protocol
 
