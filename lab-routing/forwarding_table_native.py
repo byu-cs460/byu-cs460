@@ -70,8 +70,8 @@ class ForwardingTableNative:
             intf = None
         return intf, next_hop
 
-    def get_all_entries(self, family: int=None, resolve: bool=False,
-            global_only: bool=True):
+    def get_all_entries(self, family: int=None,
+            resolve: bool=False, global_only: bool=True):
 
         routes = self._ip.get_routes()
         entries = {}
