@@ -74,8 +74,8 @@ class ForwardingTable(object):
         #FIXME - complete the rest of the method
         return None, None
 
-    def get_all_entries(self, family: int=None, resolve: bool=False,
-            global_only: bool=True):
+    def get_all_entries(self, family: int=None,
+            resolve: bool=False, global_only: bool=True):
 
         entries = {}
         for prefix in self.entries:
