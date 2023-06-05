@@ -186,14 +186,10 @@ def main():
     else:
         fast_retransmit = False
 
-    with cls(args.router) as host:
-        host.schedule_items(fast_retransmit, args.window, args.file)
 
-        loop = asyncio.get_event_loop()
-        try:
-            loop.run_forever()
-        finally:
-            loop.close()
+    host = cls(args.router)
+    host.schedule_items(fast_retransmit, args.window, args.file)
+    host.run()
 
 if __name__ == '__main__':
     main()

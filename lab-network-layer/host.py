@@ -78,12 +78,7 @@ def main():
             help='Act as a router by forwarding IP packets')
     args = parser.parse_args(sys.argv[1:])
 
-    with Host(args.router) as host:
-        loop = asyncio.get_event_loop()
-        try:
-            loop.run_forever()
-        finally:
-            loop.close()
+    Host(args.router).run()
 
 if __name__ == '__main__':
     main()

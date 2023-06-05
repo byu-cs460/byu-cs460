@@ -1,13 +1,17 @@
 #!/usr/bin/python3
 
+import argparse
+import asyncio
 import os
 import socket
-import struct
+import sys
 
 from cougarnet.sim.host import BaseHost
 from cougarnet.util import \
         mac_str_to_binary, mac_binary_to_str, \
         ip_str_to_binary, ip_binary_to_str
+
+from forwarding_table import ForwardingTable
 
 #From /usr/include/linux/if_ether.h:
 ETH_P_IP = 0x0800 # Internet Protocol packet
@@ -28,20 +32,13 @@ class Host(BaseHost):
 
         self._ip_forward = ip_forward
 
+        # do any additional initialization here
+
     def _handle_frame(self, frame: bytes, intf: str) -> None:
-        pkt = frame[14:]
-        self.handle_ip(pkt, intf)
+        pass
 
     def handle_ip(self, pkt: bytes, intf: str) -> None:
-        proto = pkt[9]
-        dst = ip_binary_to_str(pkt[16:20])
-        if not self.int_to_info[intf].ipv4_addrs or \
-                dst != self.int_to_info[intf].ipv4_addrs[0]:
-            return
-        if proto == IPPROTO_TCP:
-            self.handle_tcp(pkt)
-        elif proto == IPPROTO_UDP:
-            self.handle_udp(pkt)
+        pass
 
     def handle_tcp(self, pkt: bytes) -> None:
         pass
@@ -49,12 +46,38 @@ class Host(BaseHost):
     def handle_udp(self, pkt: bytes) -> None:
         pass
 
+    def handle_arp(self, pkt: bytes, intf: str) -> None:
+        pass
+
+    def handle_arp_response(self, pkt: bytes, intf: str) -> None:
+        pass
+
+    def handle_arp_request(self, pkt: bytes, intf: str) -> None:
+        pass
+
     def send_packet_on_int(self, pkt: bytes, intf: str, next_hop: str) -> None:
-        src = mac_str_to_binary(self.int_to_info[intf].mac_addr)
-        dst = b'\xff\xff\xff\xff\xff\xff'
-        frame = dst + src + struct.pack('!H', ETH_P_IP) + pkt
-        self.send_frame(frame, intf)
+        print(f'Attempting to send packet on {intf} with next hop {next_hop}:\n{repr(pkt)}')
 
     def send_packet(self, pkt: bytes) -> None:
-        intf = self.get_interface()
-        self.send_packet_on_int(pkt, intf, None)
+        print(f'Attempting to send packet:\n{repr(pkt)}')
+
+    def forward_packet(self, pkt: bytes) -> None:
+        pass
+
+    def not_my_frame(self, frame: bytes, intf: str) -> None:
+        pass
+
+    def not_my_packet(self, pkt: bytes, intf: str) -> None:
+        pass
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--router', '-r',
+            action='store_const', const=True, default=False,
+            help='Act as a router by forwarding IP packets')
+    args = parser.parse_args(sys.argv[1:])
+
+    Host(args.router).run()
+
+if __name__ == '__main__':
+    main()

@@ -148,14 +148,9 @@ class DVRouter(TransportHost):
 def main():
     hostname = socket.gethostname()
 
-    with DVRouter() as router:
-        router.init_dv()
-
-        loop = asyncio.get_event_loop()
-        try:
-            loop.run_forever()
-        finally:
-            loop.close()
+    router = DVRouter()
+    router.init_dv()
+    router.run()
 
 if __name__ == '__main__':
     main()

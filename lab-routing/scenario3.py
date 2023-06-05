@@ -86,15 +86,10 @@ def main():
     else:
         cls = SimHost
 
-    with cls() as router:
-        router.init_dv()
-        router.schedule_items()
-
-        loop = asyncio.get_event_loop()
-        try:
-            loop.run_forever()
-        finally:
-            loop.close()
+    router = cls()
+    router.init_dv()
+    router.schedule_items()
+    router.run()
 
 if __name__ == '__main__':
     main()
