@@ -5,7 +5,7 @@ from pyroute2 import IPRoute
 from pyroute2.netlink.rtnl import rtscopes
 from pyroute2.netlink.exceptions import NetlinkError
 
-from cougarnet.sim.sys_cmd import sys_cmd_pid
+from cougarnet.sys_helper.cmd_helper import sys_cmd_pid
 
 class ForwardingTableNative:
     def __init__(self):

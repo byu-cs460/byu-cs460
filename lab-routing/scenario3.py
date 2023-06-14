@@ -9,7 +9,7 @@ from scapy.all import Ether, IP, ICMP
 from scapy.data import IP_PROTOS 
 from scapy.layers.inet import ETH_P_IP
 
-from cougarnet.sim.sys_cmd import sys_cmd_pid
+from cougarnet.sys_helper.cmd_helper import sys_cmd_pid
 
 from dvrouter import DVRouter
 
