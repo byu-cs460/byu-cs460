@@ -215,6 +215,8 @@ this environment.
    $ sudo apt install spice-vdagent
    ```
 
+7. Reboot your VM to have the changes take effect.
+
 8. Mount the shared directory.
 
    a. First create a mount point on the VM:
