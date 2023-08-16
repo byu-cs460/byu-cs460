@@ -63,10 +63,8 @@ this environment.
    From the `root` (`#`) prompt, add your user to the `sudo` group:
 
    ```
-   # usermod -a -G sudo username
+   # usermod -a -G sudo $USER
    ```
-
-   (Replace `username` with your username.)
 
    Now log out of LXDE and log back in.  As a member of the `sudo` group, you
    will be able to run commands that require administrator privileges on a
@@ -99,24 +97,22 @@ this environment.
 10. On the host machine, select "Devices" from the VirtualBox menu, then select
     "Shared Folders", then "Shared Folders Settings...".  Click the button to
     add a shared folder, then choose which host folder to share (e.g.,
-    `/Users/username/VMshared`, where `username` is your actual username) and,
-    where it will mount on the guest filesystem (e.g., `/home/username/host`,
-    where `username` is your actual username).  Selecting both "Auto-mount" and
-    "Make permanent" is recommended.  For more information see the
+    `/Users/$USER/VMshared`, where your actual username replaces
+    `$USER`) and where it will mount on the guest filesystem (e.g.,
+    `/home/$USER/host`).  Selecting both "Auto-mount" and "Make permanent" is
+    recommended.  For more information see the
     [official documentation](https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/sharedfolders.html).
  
 11. From the prompt, add your user to the `vboxsf` (VirtualBox shared folders)
     group:
 
     ```
-    $ sudo usermod -a -G vboxsf username
+    $ sudo usermod -a -G vboxsf $USER
     ```
 
-    (Replace `username` with your username.)
-
     Now log out of LXDE and log back in.  As a member of the `vboxsf` group,
-    you will be able to access the folder `/Users/username/VMshared` (or
-    whichever folder you selected) on the host from `/home/username/host` (or
+    you will be able to access the folder `/Users/$USER/VMshared` (or
+    whichever folder you selected) on the host from `/home/$USER/host` (or
     whichever mount point you selected) in the VM.
 
 12. On the host machine, select "Devices" from the VirtualBox menu, then select
@@ -161,7 +157,7 @@ this environment.
 17. Install whatever other tools and utilities that you think will improve your
     development environment.  Please note that if you have configured shared folders
     as described above, you can use whatever development environment you have already
-    installed on your host to manipulate files in `/home/username/host` or some
+    installed on your host to manipulate files in `/home/$USER/host` or some
     subfolder thereof.  Thus, you do not have to develop within the VM itself if you
     do not want to.
 
