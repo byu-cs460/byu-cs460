@@ -37,13 +37,10 @@ configured (see the
 
  1. Run the following to create the group `cougarnet` and add your user to it:
 
-    ```
+    ```bash
     $ sudo groupadd cougarnet
-    $ sudo usermod -a -G cougarnet username
-
+    $ sudo usermod -a -G cougarnet $USER
     ```
-
-    (Replace `username` with your username.)
 
     Now log out of LXDE and log back in, so your user is a member of the
     `cougarnet` group.  The privileges associated with this group membership
