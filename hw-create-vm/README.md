@@ -128,6 +128,7 @@ this environment.
 
     ```
     $ sudo apt purge libreoffice-{impress,math,writer,draw,base-core,core,help-common,core-nogui} xscreensaver
+    $ sudo apt purge connman
     $ sudo apt autoremove
     ```
 
