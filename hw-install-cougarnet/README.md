@@ -63,7 +63,7 @@ configured (see the
     Add the following contents to this file:
 
     ```
-    %cougarnet  ALL=(ALL:ALL) NOPASSWD:SETENV: /usr/libexec/cougarnet/syscmd_helper
+    %cougarnet  ALL=(ALL:ALL) NOPASSWD: /usr/libexec/cougarnet/syscmd_helper
     ```
 
     This will allow members of the `cougarnet` group to run the command
