@@ -178,79 +178,86 @@ this environment.
 
 4. Start UTM, then do the following:
 
-   a. Click "Create a New Virtual Machine", then "Virtualize", then "Linux".
+   a. Click the "+" button to create a new virtual machine.
 
-   b. Under "Boot ISO Image", click "Browse", then select the install image
-      (`.iso` file) you downloaded.  Then click "Continue".
+   b. Start: Click "Virtualize"
 
-   c. Select 2048 MB RAM, then click "Continue".
+   c. Operating System: Click "Linux".
 
-   d. Specify at least 20GB, then click "Continue".
+   d. Linux: Under "Boot ISO Image", click "Browse", then select the install
+      image (`.iso` file) you downloaded.  Then click "Continue".
 
-   e. Select a directory that will be shared between the guest OS and your VM.
-      Then click "Continue".
+   e. Hardware: Specify at least 2048 MB RAM, then click "Continue".
 
-   f. Click "Play".
+   f. Storage: Specify at least 20GB, then click "Continue".
 
-5. Follow steps 4 through 6 from the [VirtualBox instructions](#virtualbox-amd64-only).
-   Before rebooting (step 5), do the following to "remove" the install CD.
-   Click the "Drive Image Options" button, select "CD/DVD (ISO) Image", then click
-   "Eject".
+   g. Shared Directory: Select a directory that will be shared between the
+      guest OS and your VM (e.g., `/Users/$USER/VMshared`, where your actual
+      username replaces `$USER`).  Then click "Continue".
+
+   h. Click "Play".
+
+5. Read the note immediately below, then follow steps 4 through 6 from the
+   [VirtualBox instructions](#virtualbox-amd64-only).
+
+   Note: Before rebooting (step 5), do the following to "remove" the install CD:
+
+   a. Click the "Drive Image Options" button.
+
+   b. Select "CD/DVD (ISO) Image".
+
+   c. Click "Eject".
 
 6. Within the guest OS, open a terminal, and run the following from the command
    to install utilities for allowing the host to interact with the guest:
 
    ```bash
-   $ sudo apt install spice-vdagent spice-webdavd
-   $ sudo apt install nautilus
+   $ sudo apt install spice-vdagent
    ```
 
-7. Reboot your VM to have the changes take effect.
+8. Mount the shared directory.
 
-8. From the menu, click "Accessories" then "Files" to open Nautilus.  Click
-   "Other Locations", then "Spice client folder".  Then run the following from
-    a terminal:
+   a. First create a mount point on the VM:
 
-    ```bash
-    $ ln -s /run/user/`id -u`/gvfs/dav+sd:host=Spice%2520client%2520folder._webdav._tcp.local ~/host
-    ```
+      ```bash
+      $ sudo mkdir /media/shared
+      ```
 
-    By clicking "Spice client folder" in Nautilus, you mounted (i.e., made
-    accessible) a special "drive" from which you can access your host's files
-    over a protocol called WebDAV.  Because its default location is long and
-    messy (`/run/user/...`), we used `ln -s` to create a symbolic link (i.e.,
-    an alias) to that folder in your home folder, named simply "host".  That
-    is, if you run the following:
+   b. Mount the shared volume as type `9p`:
 
-    ```bash
-    $ ls ~/host
-    ```
+      ```bash
+      $ sudo mount -t 9p -o trans=virtio,version=9p2000.L share /media/shared/
+      ```
 
-    You should be able to see the directory contents in the corresponding
-    directory on the host.
+   c. Change the permissions (from only the VM perspective) on files and
+      directors in the shared directory, so your user (in the guest system) can
+      access the files.
+
+      ```bash
+      sudo chown -R $USER /media/shared/
+      ```
+
+   d. Test your new mount by listing directory contents:
+
+      ```bash
+      ls -l /media/shared
+      ```
+
+   e. Add the following line to `/etc/fstab` such that the shared volume is
+      mounted automatically at boot:
+
+      ```bash
+      share	/media/shared	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
+      ```
+
+   f. Optionally create a symbolic link to the share mount from your home
+      directory:
+
+      ```bash
+      $ ln -s /media/shared/ ~/shared
+      $ ls -l ~/shared
+      ```
+
 
 9. Follow steps 13 through 17 from the
    [VirtualBox instructions](#virtualbox-amd64-only).
-
-10. If you prefer to develop on your host OS, and the WebDAV option seems slow,
-    here is an alternate way to configure your setup:
-
-    a. Run the following on your guest to install an SSH server:
-
-       ```bash
-       $ sudo apt install ssh
-       ```
-
-    b. Capture your IP address by running the following
-
-       ```bash
-       $ ip addr | awk '/^[[:space:]]+inet[[:space:]]/ { print $2 }' | sed -n '/^127/b;s:/[[:digit:]]\+::;
-       ```
-
-       This just basically picks the only non-loopback IP address and prints it
-       out, minus its prefix (which we will learn about).
-
-    c. Follow the instructions
-       [here](https://github.com/kentseamons/byu-cs324-f2022/tree/master/contrib/vscode-setup),
-       using the username you created for your VM and the IP address of your VM
-       in place of "schizo.cs.byu.edu", in every instance.
