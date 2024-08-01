@@ -215,9 +215,10 @@ should show that each of these was received by the destination.
 
    The next question is how to _create_ the prefix.  First, recall that
    the IP address and prefix length for each interface can be found with the
-   `int_to_info` attribute.  Using these two items, you can create the prefix
-   using the `ip_str_to_int()`, `ip_prefix()`, and `ip_int_to_str()` functions
-   in `prefix.py`.
+   IP address object returned from the `ipv4_address_info_single()` method.
+   Using these two items, you can create the prefix using the
+   `ip_str_to_int()`, `ip_prefix()`, and `ip_int_to_str()` functions in
+   `prefix.py`.
 
    Thus for an IP address of 192.0.2.2 and a prefix length of 24, the prefix
    would be 192.0.2.0/24.

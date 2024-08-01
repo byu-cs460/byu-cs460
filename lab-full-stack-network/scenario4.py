@@ -26,7 +26,7 @@ class SimHost(TransportHost):
             eth = Ether(frame)
             if eth.type == ETH_P_IP:
                 ip = eth.getlayer(IP)
-                if ip.dst == self.int_to_info[intf].ipv4_addrs[0]:
+                if ip.dst == self.ipv4_address_single(intf):
                     if ip.proto == IP_PROTOS.tcp:
                         tcp = ip.getlayer(TCP)
                         data = ip.getlayer(Raw)
@@ -50,8 +50,8 @@ class SimHost(TransportHost):
         super(SimHost, self)._handle_frame(frame, intf)
 
     def start_nc(self, remote_addr, remote_port):
-        intf = self.get_interface()
-        local_addr = self.int_to_info[intf].ipv4_addrs[0]
+        intf = self.physical_interface_single()
+        local_addr = self.ipv4_address_single(intf)
         local_port = random.randint(1024, 65536)
 
         nc = NetcatTCP(local_addr, local_port,
@@ -61,8 +61,8 @@ class SimHost(TransportHost):
         self.nc = nc
 
     def start_echo(self, local_port):
-        intf = self.get_interface()
-        local_addr = self.int_to_info[intf].ipv4_addrs[0]
+        intf = self.physical_interface_single()
+        local_addr = self.ipv4_address_single(intf)
 
         echo = EchoServerTCP(local_addr, local_port,
                 self.install_socket_tcp,

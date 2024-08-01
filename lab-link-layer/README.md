@@ -326,11 +326,16 @@ Now add implementation for VLANs and trunking according to the following:
    forwarded.
 
 Note that when a switch is initialized, it is populated with information about
-each interface, including the VLAN it is associated with.  You can access all
-of this information with the `int_to_info` instance variable on your Switch
-instance (inherited from the `BaseHost` class).  Also, you can use the
-`_is_trunk_link()` method to (gasp!) see if an interface corresponds to a
-trunk link.
+each interface, including the VLAN it is associated with.  You can retrieve a
+list of objects containing information for all "physical" interfaces on the
+system with the `physical_interfaces_info()` method of your Switch instance
+(inherited from the `BaseHost` class).  You can access the MAC address and
+interface name associated with each interface by accessing using
+dictionary-like syntax on the object: `myobj['address']` and `myobj['ifname']`.
+You can use the `int_to_vlan` attribute to map an interface name to the
+VLAN for that interface, and the `is_trunk_link()` method will identify a trunk
+link. More information can be found in the
+[documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames).
 
 See the [Help](#helps) section for more, including an
 [802.1Q frame reference](#ethernet-frames), and implementation tips and
@@ -549,17 +554,6 @@ For more info see the following:
  - [`bytes` documentation](https://docs.python.org/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview)
  - [`binascii` documentation](https://docs.python.org/3/library/binascii.html)
  - [`struct` documentation](https://docs.python.org/3/library/struct.html)
-
-
-## Sending and Receiving Frames
-
-The `Switch` class inherits from `cougarnet.sim.BaseHost`, which contains
-several useful features.  The `send_frame()` method is used to send a frame
-(type `bytes`) out a specific interface (type `str`).  The
-`physical_interfaces` attribute contains the list of "physical" interfaces of
-the switch.  The `int_to_info` attribute is a mapping of each interface to its
-information.  More information can be found in the
-[documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames).
 
 
 ## Other Helps

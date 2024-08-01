@@ -46,7 +46,7 @@ class SimHost(Host):
         icmp = ICMP(type=8, id=id, seq=seq)
         pkt = ip / icmp / b'0123456789'
 
-        intf = self.get_interface()
+        intf = self.physical_interface_single()
         self.send_packet_on_int(bytes(pkt), intf, next_hop)
 
     def schedule_items(self):

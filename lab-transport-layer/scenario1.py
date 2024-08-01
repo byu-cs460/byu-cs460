@@ -27,7 +27,7 @@ class SimHost(TransportHost):
             eth = Ether(frame)
             if eth.type == ETH_P_IP:
                 ip = eth.getlayer(IP)
-                if ip.dst == self.int_to_info[intf].ipv4_addrs[0]:
+                if ip.dst == self.ipv4_address_single(intf):
                     if ip.proto == IP_PROTOS.udp:
                         udp = ip.getlayer(UDP)
                         payload = bytes(udp.getlayer(Raw))

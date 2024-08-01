@@ -23,7 +23,7 @@ class Host(BaseHost):
         icmp = ICMP(type=8, id=id, seq=seq)
         response = frame / ip / icmp / b'0123456789'
 
-        intf = self.get_interface()
+        intf = self.physical_interface_single()
         self.send_frame(bytes(response), intf)
 
     def schedule_items(self):

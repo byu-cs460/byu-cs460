@@ -192,9 +192,9 @@ In the file `host.py`, flesh out following the skeleton methods related to ARP:
      - Destination MAC address: the MAC address corresponding to the next-hop
        IP address.
      - Source MAC address: the MAC address corresponding to the outgoing
-       interface.  This can be found with the `int_to_info` attribute, which is
-       documented
-       [here](https://github.com/cdeccio/cougarnet/blob/main/README.md#baseframehandler).
+       interface.  This can be found by retrieving interface information with
+       the `interface_info_single()` method
+       [here](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames).
      - Type IP (`ETH_P_IP = 0x0800`)
      - The IP packet as the Ethernet payload.
 
@@ -206,11 +206,13 @@ In the file `host.py`, flesh out following the skeleton methods related to ARP:
      - queue the packet, along with interface and next hop, for later sending
      - create an [ARP request](#arp-packets), such that:
        - The sender IP address is the IP address associated with the outgoing
-         interface.  This can be found with the `int_to_info`
-         [attribute](https://github.com/cdeccio/cougarnet/blob/main/README.md#baseframehandler)
+         interface.  This can be found by retrieving address information for
+         the interface with the `ipv4_address_info_single()`
+         [method](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames)
          of the host.
        - The sender MAC address is the MAC address corresponding to the outgoing
-         interface (also found with the `int_to_info` attribute).
+         interface (found by retrieving the interface information with the
+         `interface_info_single()` method).
        - The target IP address is the next-hop IP address.
        - The target MAC address is all zeroes (this field is ignored by the receiver).
        - The opcode is request (`ARPOP_REQUEST = 1`).
@@ -220,7 +222,8 @@ In the file `host.py`, flesh out following the skeleton methods related to ARP:
        - Destination MAC address: the Ethernet broadcast address:
          (`ff:ff:ff:ff:ff:ff`)
        - Source MAC address: the MAC address corresponding to the outgoing
-         interface (see the `int_to_info` attribute).
+         interface (found by retrieving the interface information with the
+         `interface_info_single()` method).
        - Type ARP (`ETH_P_ARP =  0x0806`)
        - The ARP request as the Ethernet payload.
 
@@ -591,8 +594,8 @@ forwarding:
        consisting of prefix, outgoing interface, and next hop.
 
      - The IP prefixes with which each interface is associated.  The prefix for
-       each interface can be found in the `int_to_info`
-       [attribute](https://github.com/cdeccio/cougarnet/blob/main/README.md#baseframehandler)
+       each interface can be found by calling the `ipv4_address_info_single()`
+       [method](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames)
        of the host.  For each interface, the added entry should
        consist of the IP prefix for the interface, the interface itself as the
        outgoing interface, and a next hop of `None`.
@@ -654,9 +657,10 @@ forwarding:
        The broadcast address for the subnet is simply the last IP address in
        the subnet, i.e., the IP address with all the "host" bits set.  Remember
        that you can derive the IP prefix associated with a given interface by
-       using the IP address and prefix length found in the `int_to_info`
-       attribute of the host.  With the prefix in hand, you can use the
-       `ip_prefix_last_address()` function that you created.
+       using the IP address and prefix length, both found using the
+       `ipv4_address_info_single()` method of the host.  With the prefix in
+       hand, you can use the `ip_prefix_last_address()` function that you
+       created.
    - If the packet is destined for this host, based on the tests in the
      previous bullet, then call another method to handle the payload, depending
      on the protocol value in the IP header:

@@ -359,8 +359,9 @@ work properly.
    course :).  In _this_ lab, by routing with /32 prefixes, we remove the
    dependency on ARP to keep things more simple.
 
-   The IP address for each interface can be found with the `int_to_info`
-   attribute.  The make it a prefix, simply add "/32" to the end.
+   The IP address for each interface can be found by calling the
+   `ipv4_address_info_single()` method.  To make it a prefix, simply add "/32"
+   to the end.
 
  - A router sends its own DV to every one of its neighbors in a UDP datagram.
    You do not have to set up the socket for sending and receiving UDP datagrams
@@ -408,9 +409,9 @@ work properly.
  - Each DV message has the following properties:
 
    - the source IP address corresponding to the interface out from which the
-     packet is being sent. This can be found with the `int_to_info` attribute,
-     which is documented
-     [here](https://github.com/cdeccio/cougarnet/blob/main/README.md#baseframehandler).
+     packet is being sent. This can be found with the
+     `ipv4_address_info_single()` method, which is documented
+     [here](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames).
    - the name of the router sending the message.  This is can be found with the
      `hostname` attribute, which is initialized for you in `__init__()`.
    - the distance vector of the sending router.

@@ -36,8 +36,8 @@ class Host(BaseHost):
     def handle_ip(self, pkt: bytes, intf: str) -> None:
         proto = pkt[9]
         dst = ip_binary_to_str(pkt[16:20])
-        if not self.int_to_info[intf].ipv4_addrs or \
-                dst != self.int_to_info[intf].ipv4_addrs[0]:
+        if not self.ipv4_addresses(intf) or \
+                dst != self.ipv4_address_single(intf):
             return
         if proto == IPPROTO_TCP:
             self.handle_tcp(pkt)
@@ -51,11 +51,11 @@ class Host(BaseHost):
         pass
 
     def send_packet_on_int(self, pkt: bytes, intf: str, next_hop: str) -> None:
-        src = mac_str_to_binary(self.int_to_info[intf].mac_addr)
+        src = mac_str_to_binary(self.interface_info_single(intf)['address'])
         dst = b'\xff\xff\xff\xff\xff\xff'
         frame = dst + src + struct.pack('!H', ETH_P_IP) + pkt
         self.send_frame(frame, intf)
 
     def send_packet(self, pkt: bytes) -> None:
-        intf = self.get_interface()
+        intf = self.physical_interface_single()
         self.send_packet_on_int(pkt, intf, None)
