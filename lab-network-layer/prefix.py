@@ -41,7 +41,7 @@ int_type_int = type(0xff)
 int_type_long = type(0xffffffffffffffff)
 
 
-def ip_int_to_str(address, family):
+def ip_int_to_str(address: int, family: int) -> str:
     '''Convert an integer value to an IP address string, in presentation
     format.
 
@@ -62,7 +62,7 @@ def ip_int_to_str(address, family):
     return socket.inet_ntop(family,
             binascii.unhexlify(('%x' % address).zfill(address_len >> 2)))
 
-def ip_str_to_int(address):
+def ip_str_to_int(address: str) -> int:
     '''Convert an IP address string, in presentation format, to an integer.
     address:
 
@@ -82,7 +82,7 @@ def ip_str_to_int(address):
     return int_type_long(
             binascii.hexlify(socket.inet_pton(family, address)), 16)
 
-def all_ones(n):
+def all_ones(n: int) -> int:
     '''Return an int that is value the equivalent of having only the least
     significant n bits set.  Any bits more significant are not set.  This is a
     helper function for other IP address manipulation functions.
@@ -106,7 +106,7 @@ def all_ones(n):
 
     return 2**n - 1
 
-def ip_prefix_mask(family, prefix_len):
+def ip_prefix_mask(family: int, prefix_len: int) -> int:
     '''Return prefix mask for the given address family and prefix length, as an
     int.  The prefix_len most-significant bits should be set, and the remaining
     (least significant) bits should not be set.  The total number of bits in
@@ -139,7 +139,7 @@ def ip_prefix_mask(family, prefix_len):
     #FIXME
     return 0
 
-def ip_prefix(address, family, prefix_len):
+def ip_prefix(address: int, family: int, prefix_len: int) -> int:
     '''Return the prefix for the given IP address, address family, and
     prefix length, as an int.  The prefix_len most-significant bits
     from the IP address should be preserved in the prefix, and the
@@ -171,7 +171,7 @@ def ip_prefix(address, family, prefix_len):
     #FIXME
     return 0
 
-def ip_prefix_total_addresses(family, prefix_len):
+def ip_prefix_total_addresses(family: int, prefix_len: int) -> int:
     '''Return the total number IP addresses (_including_ the first and
     last addresses within an IPv4 subnet, which cannot be used by a host
     or router on that subnet) for the given address family and prefix
@@ -195,7 +195,8 @@ def ip_prefix_total_addresses(family, prefix_len):
     #FIXME
     return 0
 
-def ip_prefix_nth_address(prefix, family, prefix_len, n):
+def ip_prefix_nth_address(prefix: int, family: int,
+        prefix_len: int, n: int) -> int:
     '''Return the nth IP address within the prefix specified with the given
     prefix, address family, and prefix length, as an int.  The prefix_len
     most-significant bits from the from the prefix should be preserved in the
@@ -228,7 +229,7 @@ def ip_prefix_nth_address(prefix, family, prefix_len, n):
     #FIXME
     return 0
 
-def ip_prefix_last_address(prefix, family, prefix_len):
+def ip_prefix_last_address(prefix: int, family: int, prefix_len: int) -> int:
     '''Return the last IP address within the prefix specified with the given
     prefix, address family, and prefix length, as an int.  The prefix_len
     most-significant bits from the from the prefix should be preserved in the
@@ -267,7 +268,7 @@ class Prefix:
     address family (int).
     '''
 
-    def __init__(self, prefix):
+    def __init__(self, prefix: str):
         if ':' in prefix:
             family = socket.AF_INET6
         else:
@@ -285,14 +286,14 @@ class Prefix:
         self.prefix_len = prefix_len
         self.family = family
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return '%s/%d' % \
                 (ip_int_to_str(self.prefix, self.family), self.prefix_len)
 
-    def __contains__(self, address):
+    def __contains__(self, address: str) -> bool:
         '''Return True if the address corresponding to this IP address is
         within this prefix, False otherwise.
 
