@@ -1,3 +1,5 @@
+import struct
+
 from cougarnet.util import \
         ip_str_to_binary, ip_binary_to_str
 
