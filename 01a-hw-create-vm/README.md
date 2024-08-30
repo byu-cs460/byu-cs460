@@ -8,19 +8,9 @@ affect other applications on a working system.  Second, running the framework
 requires root (administrator) privileges, which you typically don't want to use
 to run applications on a more general system.
 
-VirtualBox is the only VM platform that has been tested.  Another VM platform
-(e.g., Parallels, VMware, UTM/Qemu) might work, but should be considered
-experimental.  Also, you would need to adapt any of the instructions (below)
-that are specific to VirtualBox to your chosen VM platform.  Note that
-VirtualBox will not run on Apple M1/M2 hardware.  We have included a set of
-_experimental_ instructions for running UTM/Qemu on M1/M2 laptops below.
-
-In summary, you have the following choices for VM platform:
-
- - Install VirtualBox on your personal system, if supported by your
-   architecture.
- - Use the VirtualBox software installed on the CS lab machines.
- - (Experimental) Use an alternate VM platform on your personal system.
+VirtualBox and UTM/Qemu are the only VM platforms that have been tested.
+Another VM platform might work but should be considered experimental.  Also, it
+would require adapting the instructions below to your chosen platform.
 
 Generally you might select almost any distribution of Linux.  However, for this
 class I am asking that you use Debian because the framework has been tested in
@@ -100,7 +90,7 @@ this environment.
     `/Users/$USER/VMshared`, where your actual username replaces
     `$USER`) and where it will mount on the guest filesystem (e.g.,
     `/home/$USER/host`).  Selecting both "Auto-mount" and "Make permanent" is
-    recommended.  For more information see the
+    recommended.  For more information, see the
     [official documentation](https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/sharedfolders.html).
  
 11. From the prompt, add your user to the `vboxsf` (VirtualBox shared folders)
@@ -162,7 +152,7 @@ this environment.
     do not want to.
 
 
-## UTM/Qemu on MacOS (Experimental)
+## UTM/Qemu on MacOS (required for Apple Silicon (M1/M2/M3))
 
 1. Install [Homebrew](https://brew.sh/).
 
@@ -173,7 +163,7 @@ this environment.
 
 3. Download the "netinst" (net install) image from
    [Debian](https://www.debian.org/releases/stable/debian-installer/).
-   For M1/M2 hardware, use the arm64 architecture.  For anything else, use
+   For M1/M2/M3 hardware, use the arm64 architecture.  For anything else, use
    amd64.
 
 4. Start UTM, then do the following:
@@ -197,16 +187,16 @@ this environment.
 
    h. Click "Play".
 
-5. Read the note immediately below, then follow steps 4 through 6 from the
-   [VirtualBox instructions](#virtualbox-amd64-only).
-
-   Note: Before rebooting (step 5), do the following to "remove" the install CD:
+5. "Remove" the install CD by doing the following:
 
    a. Click the "Drive Image Options" button.
 
    b. Select "CD/DVD (ISO) Image".
 
    c. Click "Eject".
+
+5. Follow steps 4 through 6 from the
+   [VirtualBox instructions](#virtualbox-amd64-only).
 
 6. Within the guest OS, open a terminal, and run the following from the command
    to install utilities for allowing the host to interact with the guest:
