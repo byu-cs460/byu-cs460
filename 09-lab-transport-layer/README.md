@@ -6,6 +6,7 @@ transport-layer multiplexing, and the TCP three-way handshake.
 
 # Table of Contents
  - [Getting Started](#getting-started)
+   - [Maintain Your Repository](#maintain-your-repository)
    - [Update Cougarnet](#update-cougarnet)
    - [Resources Provided](#resources-provided)
    - [Topology](#topology)
@@ -28,6 +29,18 @@ transport-layer multiplexing, and the TCP three-way handshake.
 
 
 # Getting Started
+
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
+
 
 ## Update Cougarnet
 
