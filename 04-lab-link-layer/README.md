@@ -316,7 +316,7 @@ You can also use the driver provided for
 [automated testing](#automated-testing).
 
 Now would be a good time to
-[save your work](../contrib/github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
+[save your work](../01b-hw-github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
 
 
 ## Part 2 - VLANs and Trunking
@@ -587,9 +587,9 @@ For more info see the following:
    scenario files used will be the stock files [you were provided](#resources-provided).
  - Save your work often, especially after you finish Part 1 and move on to
    Part 2.  You are encouraged to
-   [commit your changes](../contrib/github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
+   [commit your changes](../01b-hw-github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
    to the private GitHub repository that you created
-   [in an earlier assignment](../contrib/github-repo-mirror/README.md).
+   [in an earlier assignment](../01b-hw-github-repo-mirror/README.md).
    Please ensure that it remains private!
 
 

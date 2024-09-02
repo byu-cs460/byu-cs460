@@ -87,7 +87,7 @@ The files given to you for this lab are the following:
 
    Nonetheless, with just a bit of effort, you _could_ drop in your `host.py`
    from the
-   [Network-Layer Lab](../lab-network-layer/),
+   [Network-Layer Lab](../06-lab-network-layer/),
    and have `DVRouter` inherit from that instead of from `BaseFrameHandler`.
    Then, if you
    [configure the host](https://github.com/cdeccio/cougarnet/blob/main/README.md#network-configuration-file)
@@ -96,7 +96,7 @@ The files given to you for this lab are the following:
    routing!
  - `prefix.py` - This blank file will be
    [replaced](#copy-prefixpy) with the `prefix.py` you created in the
-   [Network-Layer Lab](../lab-network-layer/).  It is placed here only to allow
+   [Network-Layer Lab](../06-lab-network-layer/).  It is placed here only to allow
    the [starter commands](#starter-commands) to run without error.
  - `scenario1.cfg`, `scenario2.cfg`, and `scenario3.cfg` -
    [network configuration files](https://github.com/cdeccio/cougarnet/blob/main/README.md#network-configuration-file)
@@ -153,12 +153,12 @@ sends a packet out `r2-r1`, and to get to the subnet corresponding to its
 `r2-r3` interface, it sends a packet out `r2-r3`.  (Note that these entries are
 exactly what you integrated into your router code in the `__init__()` method of
 your `Host` code as part of the
-[network-layer lab](../lab-network-layer/README.md#instructions)!)
+[network-layer lab](../06-lab-network-layer/README.md#instructions)!)
 The problem is that for any destinations outside of these local subnets, it
 doesn't know where to go!
 
 Rather than manually adding static forwarding entries, like you did with the
-previous [homework](../hw-network-layer/) and [lab](../lab-network-layer/),
+previous [homework](../05-hw-network-layer/) and [lab](../06-lab-network-layer/),
 in this lab, you will update the forwarding tables dynamically using a distance
 vector (DV) protocol.  Indeed, you will have a working router that will not
 only be capable of _forwarding_ packets but also _routing_!
@@ -326,10 +326,10 @@ Then implement a DV router in `dvrouter.py` with the following functionality.
 ## Copy `prefix.py`
 
 Copy your fleshed out copy of `prefix.py` from the
-[previous lab](../lab-network-layer/README.md#part-2---forwarding-table):
+[previous lab](../06-lab-network-layer/README.md#part-2---forwarding-table):
 
 ```bash
-$ cp ../lab-network-layer/prefix.py .
+$ cp ../06-lab-network-layer/prefix.py .
 ```
 
 While not everything needs to be working, the IP manipulation functions do need
@@ -398,12 +398,12 @@ work properly.
    subnet.  For example, the broadcast address for 10.1.2.0/24 is 10.1.2.255.
    And the broadcast address for 10.1.2.20/30 is 10.1.2.23.
    
-   You might recall that the [previous lab](../lab-network-layer/) had you
+   You might recall that the [previous lab](../06-lab-network-layer/) had you
    create several functions related to IP prefix handling, one of which was to
    generate the broadcast (last) address for a given subnet (see
-   [Part 2](../lab-network-layer/README.md#part-2---forwarding-table) and also
+   [Part 2](../06-lab-network-layer/README.md#part-2---forwarding-table) and also
    the `handle_ip()` method in
-   [Part 3](../lab-network-layer/README.md#instructions-2).  The
+   [Part 3](../06-lab-network-layer/README.md#instructions-2).  The
    `bcast_for_int()` method uses those functions to return the broadcast IP
    address for the subnet associated with a given interface.
 

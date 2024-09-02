@@ -67,7 +67,7 @@ The files given to you for this lab are the following:
    IPv4 and TCP header implementations.  You will also do your work here!
  - `host.py` - a file containing a basic implementation of a host.  Note that
    this is pared down version of the `Host` class you implemented in the
-   [Network-Layer Lab](../lab-network-layer)
+   [Network-Layer Lab](../06-lab-network-layer)
    in which the `send_packet()` method simply picks an outgoing interface,
    creates a frame with the broadcast address as its destination, and sends the
    frame out the interface.

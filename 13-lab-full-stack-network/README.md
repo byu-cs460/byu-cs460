@@ -80,7 +80,7 @@ Please note that with `scenario1.cfg` through `scenario4.cfg`, all switches are
 ## Handle Subnet-Level Broadcasts
 
  - Copy the `host.py` that you created in the
-   [Network Layer Lab](../lab-network-layer) to the current directory,
+   [Network Layer Lab](../06-lab-network-layer) to the current directory,
    overwriting the stock file that was provided.
    
  - `Host.send_packet_on_int()` currently checks the host's ARP table for an
@@ -115,14 +115,14 @@ implementation in the next step.
 
  - Integrate your implementation of `ForwardingTable.get_entry()` into
    `forwarding_table.py`, using the `forwarding_table.py` you created in the
-   [Network Layer Lab](../lab-network-layer).  You might also like to bring
+   [Network Layer Lab](../06-lab-network-layer).  You might also like to bring
    over the doctests.
 
    It is important that you integrate your code in the newer file, rather than
    simply overwriting the existing file; the existing files have been updated,
    including a bug fix and the addition of a new method.
  - Copy the `prefix.py` file that you created in the
-   [Network Layer Lab](../lab-network-layer) to the current directory,
+   [Network Layer Lab](../06-lab-network-layer) to the current directory,
    overwriting the stock file that was provided.
 
 
@@ -158,14 +158,14 @@ should show that each of these was received by the destination.
 
  - Copy the `transporthost.py` file containing the working implementation of
    the `TransportHost` class that you created in the
-   [Transport Layer Lab](../lab-transport-layer).
+   [Transport Layer Lab](../09-lab-transport-layer).
    to `transporthost.py`.
  - Copy the `headers.py` file containing the working implementation of the
    `IPv4Header`, `UDPHeader`, and `TCPHeader` classes that you created in
-   [Transport Layer Lab](../lab-transport-layer) to `headers.py`.
+   [Transport Layer Lab](../09-lab-transport-layer) to `headers.py`.
  - Integrate your implementation of the `UDPSocket` into `mysocket.py`, using
    the `mysocket.py` you created in the
-   [Transport Layer Lab](../lab-transport-layer).
+   [Transport Layer Lab](../09-lab-transport-layer).
    Integration of your `TCPSocket` implementation will come at a later step.
 
 
@@ -173,7 +173,7 @@ should show that each of these was received by the destination.
 
  - Integrate your distance vector (DV) routing implementation from the
    `DVRouter` class into `dvrouter.py`, using the `dvrouter.py` you created in
-   the [Routing Lab](../lab-routing).  Specifically:
+   the [Routing Lab](../08-lab-routing).  Specifically:
 
    - Copy over the `handle_dv_message()`, `update_dv()`,
      `send_dv()`, and `handle_down_link()` methods that you
@@ -193,7 +193,7 @@ should show that each of these was received by the destination.
      running it functions like a router that forwards packets, and uses DV to
      learn routes and update forwarding tables.
 
- - In the [Routing Lab](../lab-routing) each router announced its IP addresses
+ - In the [Routing Lab](../08-lab-routing) each router announced its IP addresses
    (i.e., in the DV), such that each learned the shortest distance (and next
    hop) associated with a set of IP addresses--or /32 networks.  This was to
    simplify implementation and to avoid dependency on ARP.  However, in a more
@@ -259,13 +259,13 @@ by the destination.
 
  - Copy the `buffer.py` file containing the working implementation of the
    `TCPSendBuffer` and `TCPReceiveBuffer` classes that you created in the
-   [TCP Lab](../lab-tcp-reliable-transport).
+   [TCP Lab](../11-lab-tcp-reliable-transport).
    to `buffer.py`.
  - Integrate your TCP implementation from the `TCPSocket` class into
    the `mysocket.py` file, using the `mysocket.py` you created in the
-   [Transport Layer Lab](../lab-transport-layer).
+   [Transport Layer Lab](../09-lab-transport-layer).
    _and_ the `mysocket.py` you created in the
-   [TCP Lab](../lab-tcp-reliable-transport).
+   [TCP Lab](../11-lab-tcp-reliable-transport).
    The former will have the methods for the TCP three-way handshake, and the
    latter will have the methods for reliable transport.
 
@@ -274,14 +274,14 @@ by the destination.
    use with this lab.  In particular, the initialization methods include
    additional arguments for a more full-featured and flexible TCP
    implementation.
- - In the [Transport Layer Lab](../lab-transport-layer) you implemented TCP's
+ - In the [Transport Layer Lab](../09-lab-transport-layer) you implemented TCP's
    three-way handshake by fleshing out (among others) the
    `TCPSocket.handle_syn()` and `TCPSocket.handle_synack()` methods.  In those
    methods the initial sequence number of the client and that of the server are
    learned, respectively, by the server and the client.  However, in that lab,
    no data was exchanged, so there was no need to initialize a receive buffer.
 
-   In the [TCP Lab](../lab-tcp-reliable-transport) data was reliably exchanged,
+   In the [TCP Lab](../11-lab-tcp-reliable-transport) data was reliably exchanged,
    but instead of using a three-way handshake to exchange initial sequence
    numbers, they were manually set using the `TCPSocket.bypass_handshake()`
    method.
@@ -338,7 +338,7 @@ The scripts associated with this configuration do the following:
 
  - Copy the `switch.py` file containing the working implementation of the `Switch`
    class that you created in the
-   [Link Layer Lab](../lab-link-layer).
+   [Link Layer Lab](../04-lab-link-layer).
    to `switch.py`.
 
 

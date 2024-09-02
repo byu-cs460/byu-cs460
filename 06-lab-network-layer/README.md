@@ -340,13 +340,13 @@ $ cougarnet --disable-ipv6 --terminal=none scenario1.cfg
 ### Ethernet Frames
 
 See the documentation for the Link-Layer lab for
-[additional helps for Ethernet frames](../lab-link-layer/README.md#ethernet-frames).
+[additional helps for Ethernet frames](../04-lab-link-layer/README.md#ethernet-frames).
 
 
 ### Working with `bytes` Instances
 
 See the documentation for the Link-Layer lab for
-[additional helps on working with bytes instances](../lab-link-layer/README.md#working-with-bytes-instances).
+[additional helps on working with bytes instances](../04-lab-link-layer/README.md#working-with-bytes-instances).
 
 
 ### ARP Packets
@@ -830,9 +830,9 @@ following distribution:
    files used will be the stock files [you were provided](#resources-provided).
  - Save your work often, especially as you move from part to part.  You are
    encouraged to
-   [commit your changes](../contrib/github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
+   [commit your changes](../01b-hw-github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
    to the private GitHub repository that you created
-   [in an earlier assignment](../contrib/github-repo-mirror/README.md).
+   [in an earlier assignment](../01b-hw-github-repo-mirror/README.md).
    Please ensure that it remains private!
 
 

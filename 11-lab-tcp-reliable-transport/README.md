@@ -69,7 +69,7 @@ The files given to you for this lab are the following:
    your TCP buffer implementations.
  - `host.py` - a file containing a basic implementation of a host.  Note that
    this is pared down version of the `Host` class you implemented in the
-   [Network-Layer Lab](../lab-network-layer)
+   [Network-Layer Lab](../06-lab-network-layer)
    in which the `send_packet()` method simply picks an outgoing interface,
    creates a frame with the broadcast address as its destination, and sends the
    frame out the interface.
@@ -77,7 +77,7 @@ The files given to you for this lab are the following:
  - `transporthost.py` - a file containing a basic implementation of a host that
    has transport-layer capabilities.  Note that this is pared down version of
    the `TransportHost` class you implemented in the
-   [Transport-Layer Lab](../lab-transport-layer).
+   [Transport-Layer Lab](../09-lab-transport-layer).
    in which the `handle_tcp()` simply expects a matching TCP connection to
    exist and calls `handle_packet()` on the corresponding socket, a `TCPSocket`
    instance.
@@ -418,7 +418,7 @@ In the file `buffer.py`, flesh out the following methods for the
      or equal to`base_seq`, then ignore it.  It is old data.
 
      For example, if `base_seq = 2021`, and a segment with sequence 2001 and
-     length 4 is received, it is discarded (i.e.., because 2001 + 4 <= 2021).
+     length 4 is received, it is discarded (i.e., because 2001 + 4 <= 2021).
    - If a segment is received, and its starting sequence number is less than
      `base_seq`, but its length makes it extend to `base_seq` or beyond, then
      trim the first bytes off, so that it starts with `base_seq` and is stored
@@ -560,12 +560,12 @@ filling in gaps.
 Finally, the transport-layer multiplexing functionality has been implemented
 for you, in a version of `TransportHost` with a very basic implementation of
 `TransportHost.handle_tcp()` (see the
-[Transport-Layer Lab](../lab-transport-layer)).
+[Transport-Layer Lab](../09-lab-transport-layer)).
 
 However, his lab requires that you have the `TCPHeader` and `IPv4Header`
 classes fleshed out, as well as the `TCPSocket.create_packet()` and
 `TCPSocket.send_packet()` methods, as directed in the
-[Transport-Layer Lab](../lab-transport-layer)
+[Transport-Layer Lab](../09-lab-transport-layer)
 
 A few words about TCP configuration parameters.  The Maximum Segment Size (MSS)
 is 1,000 bytes.  However, you can find that in the `mss` instance variable of
@@ -584,7 +584,7 @@ may or may not acknowledge new data.
 ## Instructions
 
 Integrate the following code from your implementation of the
-[Transport Layer](../lab-transport-layer):
+[Transport Layer](../09-lab-transport-layer):
 
  - The `TCPHeader` and `IPv4Header` classes from `headers.py`.
  - The `TCPSocket.create_packet()` and `TCPSocket.send_packet()` methods from
@@ -941,7 +941,7 @@ should see the exponential growth associated with the slow start state
 (beginning at 0) followed by congestion avoidance (starting at around 0.8
 seconds).  If you need a reminder of the meaning of the Time Sequence plot or
 whether or not it is showing correct behavior, refer to the
-[Transport-Layer Homework](../hw-transport-layer)
+[Transport-Layer Homework](../10-hw-transport-layer)
 
 If everything looks good, click "Save As...", and save the file as
 `tahoe-noloss.png`.
