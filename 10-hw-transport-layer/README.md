@@ -6,6 +6,18 @@ TCP Fast Open (TFO).
 
 # Getting Started
 
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
+
+
 ## Install Dependencies
 
 Make sure that `curl` is installed.
