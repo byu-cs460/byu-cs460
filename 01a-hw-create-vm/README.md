@@ -41,7 +41,7 @@ this environment.
    demands less of your host system.  You will need to explicitly tell the
    installer to install GRUB to the hard drive.
 
-5. Reboot the VM when prompted, then log in.
+5. Reboot the VM when prompted.  Then log in.
 
 6. Open a terminal (`LXTerminal`) and run the following from the command line
    to temporarily become `root` (system administrator):
@@ -86,12 +86,14 @@ this environment.
 
 10. On the host machine, select "Devices" from the VirtualBox menu, then select
     "Shared Folders", then "Shared Folders Settings...".  Click the button to
-    add a shared folder, then choose which host folder to share (e.g.,
-    `/Users/$USER/VMshared`, where your actual username replaces
-    `$USER`) and where it will mount on the guest filesystem (e.g.,
-    `/home/$USER/host`).  Selecting both "Auto-mount" and "Make permanent" is
-    recommended.  For more information, see the
-    [official documentation](https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/sharedfolders.html).
+    add a shared folder, then choose which folder from the _host_ system you
+    would like to share (e.g., `/Users/$HOSTUSER/shared`, where your actual
+    username on the host OS replaces `$HOSTUSER`) and where it will mount on
+    the guest filesystem (e.g., `/home/$GUESTUSER/shared`, where your actual
+    username on the guest OS replaces `$GUESTUSER`).  Selecting both
+    "Auto-mount" and "Make permanent" is recommended.  For more information,
+    see the
+    [official documentation](https://www.virtualbox.org/manual/ch04.html#sharedfolders).
  
 11. From the prompt, add your user to the `vboxsf` (VirtualBox shared folders)
     group:
@@ -101,9 +103,9 @@ this environment.
     ```
 
     Now log out of LXDE and log back in.  As a member of the `vboxsf` group,
-    you will be able to access the folder `/Users/$USER/VMshared` (or
-    whichever folder you selected) on the host from `/home/$USER/host` (or
-    whichever mount point you selected) in the VM.
+    you will be able to access the folder `/Users/$HOSTUSER/shared` (or
+    whichever folder you selected) on the host from `/home/$GUESTUSER/shared`
+    (or whichever mount point you selected) in the VM.
 
 12. On the host machine, select "Devices" from the VirtualBox menu, then select
     "Shared Clipboard", then "Bidirectional". This will allow you to "copy" items
@@ -181,9 +183,9 @@ this environment.
 
    f. Storage: Specify at least 20GB, then click "Continue".
 
-   g. Shared Directory: Select a directory that will be shared between the
-      guest OS and your VM (e.g., `/Users/$USER/VMshared`, where your actual
-      username replaces `$USER`).  Then click "Continue".
+   g. Shared Directory: Select a folder from the _host_ system that you would
+      like to share (e.g., `/Users/$HOSTUSER/shared`, where your actual
+      username on the host OS replaces `$HOSTUSER`).  Then click "Continue".
 
    h. Click "Play".
 
@@ -228,6 +230,10 @@ this environment.
       ```bash
       sudo chown -R $USER /media/shared/
       ```
+
+      (Note: You can leave `$USER` as is because the shell will automatically
+      replace it with your username before the command is run.  You can see
+      this by running `echo $USER`.)
 
    d. Test your new mount by listing directory contents:
 
