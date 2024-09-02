@@ -6,6 +6,18 @@ application-layer protocols such as HTTP, DNS, and SMTP.
 
 # Part 1 - HTTP Cookies and Conditional GET
 
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
+
+
 ## Getting Started
 
  1. Backup and Modify `/etc/hosts`.
