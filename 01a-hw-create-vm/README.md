@@ -36,10 +36,11 @@ this environment.
 
 4. Go through the installation using all the default options (you will have to
    explicitly select "yes" to write changes to disk), until you come to the
-   "Software Selection" menu.  At that menu, un-check the "GNOME" box, and
-   check the "LXDE" box. LXDE provides a lightweight desktop environment that
-   demands less of your host system.  You will need to explicitly tell the
-   installer to install GRUB to the hard drive.
+   "Software Selection" menu.  At that menu, check the "LXDE" box to install
+   the LXDE desktop environment.  Also, uncheck any other desktop environments
+   that might be checked (e.g., "GNOME").  LXDE provides a lightweight desktop
+   environment that demands less of your host system.  If prompted, have the
+   installer install GRUB to the hard drive.
 
 5. Reboot the VM when prompted.  Then log in.
 
