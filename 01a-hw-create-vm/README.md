@@ -281,8 +281,8 @@ might need to adapt these instructions.
 5. Follow steps 8 through 11 from the
    [VirtualBox instructions](#virtualbox-amd64-only).
 
-   Before the system reboots, "remove" the install CD by doing the following
-   within the host system:
+   Before the system reboots (the final installation step), "remove" the
+   install CD by doing the following within the host system:
 
    a. Click the "Drive Image Options" button.
 
