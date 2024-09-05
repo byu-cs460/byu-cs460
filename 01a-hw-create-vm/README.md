@@ -40,24 +40,33 @@ might need to adapt these instructions.
 
 4. At the "Virtual machine Name and Operating System" dialog, enter the
    following:
+
    a. Name: Give the VM a meaningful name (e.g., "cs460").
+
    b. Folder: Use the default folder value.
+
    c. ISO Image: Select the install image (`.iso` file) you downloaded in
       step 2.
+
    d. Check the box labeled "Skip Unattended Installation".
 
    Click "Next".
 
 5. At the "Hardware" dialog, enter the following:
+
    a. Base Memory: Give the machine 2GB (2048 MB) of RAM.
+
    b. Processors: Select 2 if you think your machine has at least four cores;
       select 1 otherwise.
+
    c. Enable EFI: Leave this default
 
    Click "Next".
 
 6. At the "Virtual Hard Disk" dialog, enter the following:
+
    a. "Create a virtual Hard Disk Now": 20 GB
+
    b. "Preallocate Full Size" - leave unchecked
 
    Click "Next".
@@ -152,13 +161,17 @@ might need to adapt these instructions.
 
     a. From VirtualBox "Devices" menu, select "Shared Folders" then "Shared
        Folders Settings...".
+
     b. Click the button to add a shared folder.  Then do the following:
+
        1. Choose which folder from the _host_ system you would like to share
           (e.g., `/Users/$HOSTUSER/shared`, where your actual username on the
           host OS replaces `$HOSTUSER`).
+
        2. Choose the location where the shared folder from the host will be
           mounted within the OS on the VM (e.g., `/home/$GUESTUSER/shared`,
           where your actual username on the VM replaces `$GUESTUSER`).
+
        3. Select both "Auto-mount" and "Make permanent".
 
        For more information, see the
@@ -232,6 +245,7 @@ might need to adapt these instructions.
 1. Install [Homebrew](https://brew.sh/).
 
 2. Install qemu and utm:
+
    ```bash
    $ brew install utm qemu
    ```
