@@ -207,7 +207,9 @@ might need to adapt these instructions.
 18. In the VM, disable the screen locker by doing the following:
 
     a. Select "Preferences" then "Desktop Session Settings" from the menu.
+
     b. Uncheck the box titled "Screen Locker," and click "OK".
+
     c. Log out of LXDE and log back in.
 
 19. In the VM, open a terminal, and run the following to install a few packages
