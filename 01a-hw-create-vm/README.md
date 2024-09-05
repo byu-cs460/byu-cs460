@@ -16,6 +16,8 @@ Generally you might select almost any distribution of Linux.  However, for this
 class I am asking that you use Debian because the framework has been tested in
 this environment.
 
+ - [VirtualBox 7.x for Windows, Linux, and MacOS (amd64 only)](#virtualbox-7x-for-windows-linux-and-macos-amd64-only)
+ - [UTM/Qemu on MacOS (required for Apple Silicon (M1/M2/M3))](#utmqemu-on-macos-required-for-apple-silicon-m1m2m3)
 
 ## VirtualBox 7.x for Windows, Linux, and MacOS (amd64 only)
 
