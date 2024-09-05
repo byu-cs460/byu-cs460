@@ -14,7 +14,7 @@ Cougarnet:
 
 ```bash
 $ sudo apt install git python3-setuptools
-$ sudo apt install openvswitch-switch frr tmux python3-pyroute2 lxterminal python3-pygraphviz libgraph-easy-perl tcpdump wireshark socat
+$ sudo apt install openvswitch-switch frr tmux iptables python3-pyroute2 lxterminal python3-pygraphviz libgraph-easy-perl tcpdump wireshark socat
 ```
 
 ## Install Cougarnet
