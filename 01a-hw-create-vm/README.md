@@ -17,7 +17,13 @@ class I am asking that you use Debian because the framework has been tested in
 this environment.
 
 
-## VirtualBox (amd64 only)
+## VirtualBox 7.x for Windows, Linux, and MacOS (amd64 only)
+
+Please note that for Mac systems using Apple Silicon (M1/M2/M3), you should use the
+UTM/Qemu instructions.) (#Add link)
+
+These instructions are for VirtualBox 7.x.  For versions other than 7.x, you
+might need to adapt these instructions.
 
 1. Download and install
    [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
@@ -28,91 +34,153 @@ this environment.
 2. Download the "netinst" (net install) image with amd64 architecture from
    [Debian](https://www.debian.org/releases/stable/debian-installer/).
 
-3. Start VirtualBox, and click "New" to create a new VM.  Give the machine 2GB
-   (2048 MB) of RAM and a dynamically-allocated hard drive with at least 20GB
-   of disk space.  Using the default for the other options should be fine.
-   Start the VM, and select the install image (`.iso` file) you downloaded when
-   prompted for a startup disk.
+3. Start VirtualBox, and click "New" to create a new VM.
 
-4. Go through the installation using all the default options (you will have to
-   explicitly select "yes" to write changes to disk), until you come to the
-   "Software Selection" menu.  At that menu, check the "LXDE" box to install
-   the LXDE desktop environment.  Also, uncheck any other desktop environments
-   that might be checked (e.g., "GNOME").  LXDE provides a lightweight desktop
-   environment that demands less of your host system.  If prompted, have the
-   installer install GRUB to the hard drive.
+4. At the "Virtual machine Name and Operating System" dialog, enter the
+   following:
+   a. Name: Give the VM a meaningful name (e.g., "cs460").
+   b. Folder: Use the default folder value.
+   c. ISO Image: Select the install image (`.iso` file) you downloaded in
+      step 2.
+   d. Check the box labeled "Skip Unattended Installation".
 
-5. Reboot the VM when prompted.  Then log in.
+   Click "Next".
 
-6. Open a terminal (`LXTerminal`) and run the following from the command line
-   to temporarily become `root` (system administrator):
+5. At the "Hardware" dialog, enter the following:
+   a. Base Memory: Give the machine 2GB (2048 MB) of RAM.
+   b. Processors: Select 2 if you think your machine has at least four cores;
+      select 1 otherwise.
+   c. Enable EFI: Leave this default
 
-   ```
-   $ su -
-   ```
+   Click "Next".
 
-   From the `root` (`#`) prompt, add your user to the `sudo` group:
+6. At the "Virtual Hard Disk" dialog, enter the following:
+   a. "Create a virtual Hard Disk Now": 20 GB
+   b. "Preallocate Full Size" - leave unchecked
 
-   ```
-   # usermod -a -G sudo $USER
-   ```
+   Click "Next".
 
-   Now log out of LXDE and log back in.  As a member of the `sudo` group, you
-   will be able to run commands that require administrator privileges on a
-   command-by-command basis using `sudo`, rather than working as the `root`
-   user, which is discouraged.
+7. At the "Summary" dialog, click "Finish".
 
-7. On the host machine, select "Devices" from the VirtualBox menu, then select
-   "Insert Guest Additions CD Image..."
+8. In the VM, go through the Debian installation using all the default options,
+   except for the following:
 
-8. Within the guest OS, open a terminal, and run the following from the command
-   line to mount the CD volume:
+   a. At the "Partition Disks" dialog, you will be asked if you want to write
+      changes to disk.  You will need to change the answer from the default
+      ("No") to "Yes".
 
-   ```
-   $ mount /media/cdrom
-   ```
+   b. At the "Software selection" dialog, make sure the following boxes are
+      checked:
 
-   Then run the following commands to build and install the VirtualBox Guest
-   Additions for your VM:
+      - "Debian desktop environment"
+      - "LXDE"
+      - "Standard System Utilities"
 
-   ```
-   $ sudo apt install linux-headers-amd64 build-essential
-   $ sudo sh /media/cdrom/VBoxLinuxAdditions.run
-   ```
+      Uncheck any other other options ("GNOME", "SSH server", etc.).  This is
+      intended to be a lightweight system that provides the essentials for this
+      class.  LXDE provides a lightweight desktop environment that demands less
+      of your host system.
 
-   This will allow you to do things like set up a shared drive between host and
-   guest OS and use a shared clipboard.
+   c. If the "GRUB boot loader" dialog appears, select your hard disk to allow
+      the installer to install GRUB to the hard drive.  It should start with
+      "/dev" (probably "/dev/sda").
 
-9. Reboot your VM to have the changes take effect.
+   Your VM should reboot when installation has finished.
 
-10. On the host machine, select "Devices" from the VirtualBox menu, then select
-    "Shared Folders", then "Shared Folders Settings...".  Click the button to
-    add a shared folder, then choose which folder from the _host_ system you
-    would like to share (e.g., `/Users/$HOSTUSER/shared`, where your actual
-    username on the host OS replaces `$HOSTUSER`) and where it will mount on
-    the guest filesystem (e.g., `/home/$GUESTUSER/shared`, where your actual
-    username on the guest OS replaces `$GUESTUSER`).  Selecting both
-    "Auto-mount" and "Make permanent" is recommended.  For more information,
-    see the
-    [official documentation](https://www.virtualbox.org/manual/ch04.html#sharedfolders).
+9. Log in to the VM after it reboots.  Use the regular account (i.e., non-root)
+   username and password that you created during installation.
+
+10. Within the LXDE desktop environment in the VM, open a terminal
+    (`LXTerminal`) and do the following to add yourself to the `sudo` group:
+
+    a. Run the following from the command line to temporarily become `root`
+       (system administrator):
+
+       ```
+       $ su -
+       ```
+
+       When prompted, enter the password for the `root` user.
+
+    b. At the `root` (`#`) prompt, run the following to add your user to the
+       `sudo`:
+
+       ```
+       # usermod -a -G sudo $USER
+       ```
+
+11. In the VM, log out of LXDE and log back in.  As a member of the `sudo`
+    group, you will be able to run commands that require administrator
+    privileges on a command-by-command basis using `sudo`, rather than working
+    as the `root` user, which is discouraged.
+
+12. Do the following to to install the VirtualBox Guest additions:
+
+    a. On the host system, select "Devices" from the VirtualBox menu, then select
+       "Insert Guest Additions CD Image...".
+
+    b. Within the LXDE desktop environment in the VM, open a terminal
+       (`LXTerminal`).
+
+    c. From the open terminal, run the following to mount the "inserted"
+       virtual CD containing the guest additions.
+
+       ```
+       $ mount /media/cdrom
+       ```
+
+    d. From the open terminal, run the following commands to build and install
+       the VirtualBox Guest Additions for your VM:
+
+       ```
+       $ sudo apt install linux-headers-amd64 build-essential
+       $ sudo sh /media/cdrom/VBoxLinuxAdditions.run
+       ```
+
+     e. Reboot your VM to have the changes take effect.
+
+     f. Log in to the VM after it reboots.  Use the regular account (i.e.,
+        non-root) username and password that you created during installation.
+
+    This will allow you to do things like set up a shared drive between host
+    and VM and use a shared clipboard, which will be accomplished in a
+    subsequent step.
+
+13. On the host machine, do the following to set up a shared folder:
+
+    a. From VirtualBox "Devices" menu, select "Shared Folders" then "Shared
+       Folders Settings...".
+    b. Click the button to add a shared folder.  Then do the following:
+       1. Choose which folder from the _host_ system you would like to share
+          (e.g., `/Users/$HOSTUSER/shared`, where your actual username on the
+          host OS replaces `$HOSTUSER`).
+       2. Choose the location where the shared folder from the host will be
+          mounted within the OS on the VM (e.g., `/home/$GUESTUSER/shared`,
+          where your actual username on the VM replaces `$GUESTUSER`).
+       3. Select both "Auto-mount" and "Make permanent".
+
+       For more information, see the
+       [official documentation](https://www.virtualbox.org/manual/ch04.html#sharedfolders).
  
-11. From the prompt, add your user to the `vboxsf` (VirtualBox shared folders)
-    group:
+14. Within the VM, do the following from a prompt to add your user to the
+    `vboxsf` (VirtualBox shared folders) group:
 
     ```
     $ sudo usermod -a -G vboxsf $USER
     ```
 
-    Now log out of LXDE and log back in.  As a member of the `vboxsf` group,
-    you will be able to access the folder `/Users/$HOSTUSER/shared` (or
+15. In the VM, log out of LXDE and log back in.  As a member of the `vboxsf`
+    group, you will be able to access the folder `/Users/$HOSTUSER/shared` (or
     whichever folder you selected) on the host from `/home/$GUESTUSER/shared`
     (or whichever mount point you selected) in the VM.
 
-12. On the host machine, select "Devices" from the VirtualBox menu, then select
-    "Shared Clipboard", then "Bidirectional". This will allow you to "copy" items
-    from the host machine and "paste" them into the VM or vice-versa.
+16. On the host machine, do the following to enable copy and paste between
+    your host and your VM.
 
-13. Run the following to remove some unnecessary
+    From the VirtualBox "Devices" menu, select "Shared Clipboard" then
+    "Bidirectional".
+
+17. In the VM, open a terminal, and run the following to remove some unnecessary
     packages from your VM:
 
     ```
@@ -121,13 +189,14 @@ this environment.
     $ sudo apt autoremove
     ```
 
-14. Disable the screen locker by doing the following:
-    - Select "Preferences" then "Desktop Session Settings" from the menu.
-    - Uncheck the box titled "Screen Locker," and click "OK".
-    - Log out of LXDE and log back in.
+18. In the VM, disable the screen locker by doing the following:
 
-15. Run the following to install a few packages that will be useful for you in
-    this class:
+    a. Select "Preferences" then "Desktop Session Settings" from the menu.
+    b. Uncheck the box titled "Screen Locker," and click "OK".
+    c. Log out of LXDE and log back in.
+
+19. In the VM, open a terminal, and run the following to install a few packages
+    that will be useful for you in this class:
 
     ```
     $ sudo apt install wireshark tcpdump
@@ -138,19 +207,20 @@ this environment.
     At the prompt "Should non-superusers be able to capture packets?" (for
     `wireshark`), select "No".
 
-16. Run the following to give `tcpdump`, `wireshark`, and `dumpcap` targeted
-    capabilities, so an unprivileged user can run them to sniff network packets
-    without elevating to `root`:
+20. Run the following to give `tcpdump`, `wireshark`, and `dumpcap` targeted
+    capabilities, so an unprivileged user can run them to observe network
+    packets without elevating to `root`:
+
     ```
     $ sudo setcap cap_net_raw=eip /usr/bin/tcpdump
     $ sudo setcap cap_net_raw=eip /usr/bin/wireshark
     $ sudo setcap cap_net_raw=eip /usr/bin/dumpcap
     ```
 
-17. Install whatever other tools and utilities that you think will improve your
+21. Install whatever other tools and utilities that you think will improve your
     development environment.  Please note that if you have configured shared folders
     as described above, you can use whatever development environment you have already
-    installed on your host to manipulate files in `/home/$USER/host` or some
+    installed on your host to manipulate files in `/home/$USER/shared` or some
     subfolder thereof.  Thus, you do not have to develop within the VM itself if you
     do not want to.
 
@@ -190,7 +260,11 @@ this environment.
 
    h. Click "Play".
 
-5. "Remove" the install CD by doing the following:
+5. Follow steps 8 through 11 from the
+   [VirtualBox instructions](#virtualbox-amd64-only).
+
+   Before the system reboots, "remove" the install CD by doing the following
+   within the host system:
 
    a. Click the "Drive Image Options" button.
 
@@ -198,21 +272,19 @@ this environment.
 
    c. Click "Eject".
 
-5. Follow steps 4 through 6 from the
-   [VirtualBox instructions](#virtualbox-amd64-only).
-
-6. Within the guest OS, open a terminal, and run the following from the command
-   to install utilities for allowing the host to interact with the guest:
+7. Within the VM, open a terminal, and run the following from the command to
+   install utilities for allowing the host to interact with the VM:
 
    ```bash
    $ sudo apt install spice-vdagent
    ```
 
-7. Reboot your VM to have the changes take effect.
+8. Reboot the VM to have the changes take effect.
 
-8. Mount the shared directory.
+9. Within the VM, mount the shared directory by running the following from
+   within a terminal:
 
-   a. First create a mount point on the VM:
+   a. Create a mount point on the VM:
 
       ```bash
       $ sudo mkdir /media/shared
@@ -225,11 +297,11 @@ this environment.
       ```
 
    c. Change the permissions (from only the VM perspective) on files and
-      directors in the shared directory, so your user (in the guest system) can
-      access the files.
+      directories in the shared directory, so your user (in the VM) can access
+      the files.
 
       ```bash
-      sudo chown -R $USER /media/shared/
+      $ sudo chown -R $USER /media/shared/
       ```
 
       (Note: You can leave `$USER` as is because the shell will automatically
@@ -239,13 +311,13 @@ this environment.
    d. Test your new mount by listing directory contents:
 
       ```bash
-      ls -l /media/shared
+      $ ls -l /media/shared
       ```
 
    e. Add the following line to `/etc/fstab` such that the shared volume is
       mounted automatically at boot:
 
-      ```bash
+      ```
       share	/media/shared	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
       ```
 
@@ -258,5 +330,5 @@ this environment.
       ```
 
 
-9. Follow steps 13 through 17 from the
+10. Follow steps 17 through 21 from the
    [VirtualBox instructions](#virtualbox-amd64-only).
