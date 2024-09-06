@@ -162,20 +162,20 @@ might need to adapt these instructions.
     a. From VirtualBox "Devices" menu, select "Shared Folders" then "Shared
        Folders Settings...".
 
-    b. Click the button to add a shared folder.  Then do the following:
+    b. Click the button to add a shared folder.
 
-       1. Choose which folder from the _host_ system you would like to share
-          (e.g., `/Users/$HOSTUSER/shared`, where your actual username on the
-          host OS replaces `$HOSTUSER`).
+    c. Choose which folder from the _host_ system you would like to share 
+       (e.g., `/Users/$HOSTUSER/shared`, where your actual username on the
+       host OS replaces `$HOSTUSER`).
 
-       2. Choose the location where the shared folder from the host will be
-          mounted within the OS on the VM (e.g., `/home/$GUESTUSER/shared`,
-          where your actual username on the VM replaces `$GUESTUSER`).
+    d. Choose the location where the shared folder from the host will be
+       mounted within the OS on the VM (e.g., `/home/$GUESTUSER/shared`,
+       where your actual username on the VM replaces `$GUESTUSER`).
 
-       3. Select both "Auto-mount" and "Make permanent".
+    e. Select both "Auto-mount" and "Make permanent".
 
-       For more information, see the
-       [official documentation](https://www.virtualbox.org/manual/ch04.html#sharedfolders).
+    For more information, see the
+    [official documentation](https://www.virtualbox.org/manual/ch04.html#sharedfolders).
  
 14. Within the VM, do the following from a prompt to add your user to the
     `vboxsf` (VirtualBox shared folders) group:
