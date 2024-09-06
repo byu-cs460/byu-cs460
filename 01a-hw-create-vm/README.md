@@ -120,6 +120,14 @@ might need to adapt these instructions.
        # usermod -a -G sudo $USER
        ```
 
+       (Replace `$USER` with the username of your regular, non-root user.
+
+       Note, however, that when running later commands with `sudo`, you will be
+       able to leave `$USER` as-is because the shell will automatically
+       replace it with your username before the command is run.  However, in
+       this case, the user running the command is `root`, so `$USER`, would be
+       replaced with `root`, not your username, and that is not what you want.)
+
 11. In the VM, log out of LXDE and log back in.  As a member of the `sudo`
     group, you will be able to run commands that require administrator
     privileges on a command-by-command basis using `sudo`, rather than working
@@ -322,7 +330,7 @@ might need to adapt these instructions.
       $ sudo chown -R $USER /media/shared/
       ```
 
-      (Note: You can leave `$USER` as is because the shell will automatically
+      (Note: You can leave `$USER` as-is because the shell will automatically
       replace it with your username before the command is run.  You can see
       this by running `echo $USER`.)
 
