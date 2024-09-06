@@ -22,7 +22,7 @@ this environment.
 ## VirtualBox 7.x for Windows, Linux, and MacOS (amd64 only)
 
 Please note that for Mac systems using Apple Silicon (M1/M2/M3), you should use the
-UTM/Qemu instructions.)
+UTM/Qemu instructions.
 
 These instructions are for VirtualBox 7.x.  For versions other than 7.x, you
 might need to adapt these instructions.
