@@ -6,6 +6,18 @@ VLANS.
 
 # Getting Started
 
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
+
+
 ## Update Cougarnet
 
 Make sure you have the most up-to-date version of Cougarnet installed by
@@ -28,7 +40,7 @@ with six hosts: `a` through `c` connected to switch `s1`, `d` through `f`
 connected to switch `s2`, and `s1` and `s2` connected to each other.  Also,
 hosts `a`, `b`, `d`, and `e` are on VLAN 25, while hosts `c` and `f` are on
 VLAN 30.
-   
+
 Run the following command to create and start the network:
 
 ```bash
@@ -103,11 +115,12 @@ s1$ sudo ovs-appctl fdb/flush s2
     s1$ sudo ovs-appctl fdb/show s2
     ```
 
-    What entries are in the tables?
+    For which hosts are there entries in `s1`'s switch table?
 
+ 2. For which hosts are there entries in `s2`'s switch table?
 
- 2. Run the following command on `b` to send a single frame from `b` to `e`:
-   
+ 3. Run the following command on `b` to send a single frame from `b` to `e`:
+
     ```bash
     b$ ping -c 1 -W 1 10.0.0.5
     ```
@@ -120,36 +133,18 @@ s1$ sudo ovs-appctl fdb/flush s2
     column.  The rows in the captures all represent the same frame as seen by
     different interfaces.
 
-    Which links saw the frame from `b` to `e`?  Hint: look at the information in
-    the "Frame" layer in Wireshark.
+    Which hosts observed the frame from `b` to `e`?  Hint: the name of the
+    interface on which a frame was seen can be found in the "Frame" layer in
+    Wireshark.  Each interface name corresponds to the names of the two devices
+    to which it is connected, e.g., interface `a-s1` represents the interface
+    on host `a` that connects it to switch `s1`.  Also, do not include the
+    original frame from `b` to `s1`; only indicate `b` if you see a second
+    frame that was forwarded from `s1` to `b`.
 
+ 4. On which link(s) (i.e., between which two network components) do/does the
+    frame(s) include an 802.1Q frame header?
 
- 3. On which link(s) (i.e., between which two network components) do/does the
-    frame(s) include an 802.1Q frame header?  What is the value of the ID field
-    in the 802.1Q header of that frame?
-
-    
- 4. Run the following command on `s1` to show the state of the MAC address
-    tables:
-
-    ```bash
-    s1$ sudo ovs-appctl fdb/show s1
-    s1$ sudo ovs-appctl fdb/show s2
-    ```
-
-    What entries are now in the tables?
-
-
- 5. Run the following command on `e` to send a single frame from `e` to `b`:
-   
-    ```bash
-    e$ ping -c 1 -W 1 10.0.0.2
-    ```
-
-    Look again at the running packet capture, sorted by the "Time" column.
-
-    Which links saw the frame from `e` to `b`?
-
+ 5. What is the value of the ID field in the 802.1Q header of that frame?
 
  6. Run the following command on `s1` to show the state of the MAC address
     tables:
@@ -159,53 +154,83 @@ s1$ sudo ovs-appctl fdb/flush s2
     s1$ sudo ovs-appctl fdb/show s2
     ```
 
-    What entries are now in the tables?
+    (Note: entries expire after five minutes, so if no entries show up, then
+    re-run the `ping` command from question 3 to re-create any entries.)
+
+    For which hosts are there entries in `s1`'s switch table?
+
+ 7.  For which hosts are there entries in `s2`'s switch table?
 
 
- 7. Go back to the terminal from which you started the network.  It should say:
-    `Ctrl-c to quit`.  Now enter `Ctrl`-`c`.  Then re-start the network with
-    the following:
-   
-    ```bash
-    $ cougarnet --display --disable-ipv6 h6-s2-vlan.cfg
-    ```
-
-    Note that you haven't enabled firewalls as you did
-    [previously](#prepare-the-host-for-link-layer-analysis).
-    Now run the following from host `b`:
+ 8. Run the following command on `e` to send a single frame from `e` to `b`:
 
     ```bash
-    b$ ping -c 5 -W 1 10.0.0.5
+    e$ ping -c 1 -W 1 10.0.0.2
     ```
 
-    Then:
+    Look again at the running packet capture, sorted by the "Time" column.
+
+    Which hosts observed the frame from `e` to `b`?
+
+ 9. Run the following command on `s1` to show the state of the MAC address
+    tables:
 
     ```bash
-    b$ ping -c 5 -W 1 10.0.0.3
+    s1$ sudo ovs-appctl fdb/show s1
+    s1$ sudo ovs-appctl fdb/show s2
     ```
 
-    What is the difference between pinging `e` and pinging `c`?  Why is there a
-    difference?
+    For which hosts are there entries in `s1`'s switch table?
 
+ 10. For which hosts are there entries in `s2`'s switch table?
 
- 8. Now stop (`Ctrl`-`c`) the network and re-start a variant of the previous
-    configuration with:
-    
-    ```bash
-    $ cougarnet --display --disable-ipv6 h6-s2.cfg
-    ```
+ 11. Go back to the terminal from which you started the network.  It should say:
+     `Ctrl-c to quit`.  Now enter `Ctrl`-`c`.  Then re-start the network with
+     the following:
 
-    Now run the following from host `b`:
+     ```bash
+     $ cougarnet --display --disable-ipv6 h6-s2-vlan.cfg
+     ```
 
-    ```bash
-    b$ ping -c 5 -W 1 10.0.0.5
-    ```
+     Note that you haven't enabled firewalls as you did
+     [previously](#prepare-the-host-for-link-layer-analysis).
+     Now run the following from host `b`:
 
-    Then:
+     ```bash
+     b$ ping -c 5 -W 1 10.0.0.5
+     ```
 
-    ```bash
-    b$ ping -c 5 -W 1 10.0.0.3
-    ```
+     Then:
 
-    Is the outcome different than it was in the previous problem?  Why or why
-    not?  Use the difference in configuration files to determine the answer.
+     ```bash
+     b$ ping -c 5 -W 1 10.0.0.3
+     ```
+
+     What are the results of pinging `e` (10.0.0.5) and pinging `c` (10.0.0.3)?
+
+ 12. If there is a difference in behavior, what causes it?
+
+ 13. Now stop (`Ctrl`-`c`) the network and re-start a variant of the previous
+     configuration with:
+
+     ```bash
+     $ cougarnet --display --disable-ipv6 h6-s2.cfg
+     ```
+
+     Now run the following from host `b`:
+
+     ```bash
+     b$ ping -c 5 -W 1 10.0.0.5
+     ```
+
+     Then:
+
+     ```bash
+     b$ ping -c 5 -W 1 10.0.0.3
+     ```
+
+     What are the results of pinging `e` (10.0.0.5) and pinging `c` (10.0.0.3)?
+
+ 14. If the results are different from those when the previous configuration
+     was used, why?  Use the difference in configuration files to determine the
+     answer.

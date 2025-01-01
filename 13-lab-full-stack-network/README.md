@@ -9,6 +9,7 @@ and communicate over that path from socket to socket, process to process.
 # Table of Contents
 
  - [Getting Started](#getting-started)
+   - [Maintain Your Repository](#maintain-your-repository)
    - [Update Cougarnet](#update-cougarnet)
    - [Resources Provided](#resources-provided)
    - [Topology](#topology)
@@ -16,7 +17,7 @@ and communicate over that path from socket to socket, process to process.
    - [Handle Subnet-Level Broadcasts](#handle-subnet-level-broadcasts)
    - [Integrate Forwarding Table](#integrate-forwarding-table)
    - [Integrate UDP Socket Functionality](#integrate-udp-socket-functionality)
-   - [Route Prefixes Instead of IP Addresses](#route-prefixes-instead-of-ip-addresses)
+   - [Integrate Routing with UDP Sockets](#integrate-routing-with-udp-sockets)
    - [Integrate TCP Socket Functionality](#integrate-tcp-socket-functionality)
    - [Integrate Layer-2 Switching](#integrate-layer-2-switching)
  - [Testing](#testing)
@@ -24,6 +25,18 @@ and communicate over that path from socket to socket, process to process.
 
 
 # Getting Started
+
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
+
 
 ## Update Cougarnet
 
@@ -67,32 +80,12 @@ Please note that with `scenario1.cfg` through `scenario4.cfg`, all switches are
 ## Handle Subnet-Level Broadcasts
 
  - Copy the `host.py` that you created in the
-   [Network Layer Lab](../lab-network-layer) to the current directory,
+   [Network Layer Lab](../06-lab-network-layer) to the current directory,
    overwriting the stock file that was provided.
    
- - `Host.send_packet_on_int()` currently checks the host's ARP table for an
-   entry corresponding to the next-hop IP address, and if no entry is found, it
-   sends an ARP request.  However, in the case that the destination IP address
-   is the local broadcast address, the packet itself should go to every host on
-   the LAN.  And of course, no host has an interface configured with the
-   broadcast IP address (i.e., because it is special address designed for the
-   very purpose of designating that a packet to to every host), so an ARP
-   request would go unanswered.  When the destination IP address is the
-   broadcast address of the local subnet, the destination MAC address for the
-   frame will simply be the broadcast Ethernet address.
-
-   Modify `Host.send_packet_on_int()` to check if the destination IP address of
-   the packet being sent matches the broadcast IP address for the subnet
-   corresponding to the interface on which it is being sent.  If the
-   destination IP address matches the subnet's broadcast IP address, then
-   simply use the broadcast MAC address (ff:ff:ff:ff:ff:ff) as the destination
-   MAC address.  At this point, you can build and send the frame.  If the
-   destination IP address is not the broadcast IP address, then proceed with
-   checking your ARP table and sending an ARP request, if necessary.
-
-   If it is helpful, you could move the `bcast_for_int()` method (currently in
-   the `DVRouter` class) into the `Host` class.  Then it could be used in both
-   classes--since `DVRouter` inherits from `Host`.
+ - If you haven't already, follow the instructions in the section
+   "[Handle IP Broadcasts](../06-lab-network-layer#handle-ip-subnet-level-broadcasts)"
+   of the Network Layer Lab.
 
 You can test your functionality after adding your forwarding table
 implementation in the next step.
@@ -102,14 +95,14 @@ implementation in the next step.
 
  - Integrate your implementation of `ForwardingTable.get_entry()` into
    `forwarding_table.py`, using the `forwarding_table.py` you created in the
-   [Network Layer Lab](../lab-network-layer).  You might also like to bring
+   [Network Layer Lab](../06-lab-network-layer).  You might also like to bring
    over the doctests.
 
    It is important that you integrate your code in the newer file, rather than
    simply overwriting the existing file; the existing files have been updated,
    including a bug fix and the addition of a new method.
  - Copy the `prefix.py` file that you created in the
-   [Network Layer Lab](../lab-network-layer) to the current directory,
+   [Network Layer Lab](../06-lab-network-layer) to the current directory,
    overwriting the stock file that was provided.
 
 
@@ -145,22 +138,22 @@ should show that each of these was received by the destination.
 
  - Copy the `transporthost.py` file containing the working implementation of
    the `TransportHost` class that you created in the
-   [Transport Layer Lab](../lab-transport-layer).
+   [Transport Layer Lab](../09-lab-transport-layer).
    to `transporthost.py`.
  - Copy the `headers.py` file containing the working implementation of the
    `IPv4Header`, `UDPHeader`, and `TCPHeader` classes that you created in
-   [Transport Layer Lab](../lab-transport-layer) to `headers.py`.
+   [Transport Layer Lab](../09-lab-transport-layer) to `headers.py`.
  - Integrate your implementation of the `UDPSocket` into `mysocket.py`, using
    the `mysocket.py` you created in the
-   [Transport Layer Lab](../lab-transport-layer).
+   [Transport Layer Lab](../09-lab-transport-layer).
    Integration of your `TCPSocket` implementation will come at a later step.
 
 
-## Route Prefixes Instead of IP Addresses
+## Integrate Routing with UDP Sockets
 
  - Integrate your distance vector (DV) routing implementation from the
    `DVRouter` class into `dvrouter.py`, using the `dvrouter.py` you created in
-   the [Routing Lab](../lab-routing).  Specifically:
+   the [Routing Lab](../08-lab-routing).  Specifically:
 
    - Copy over the `handle_dv_message()`, `update_dv()`,
      `send_dv()`, and `handle_down_link()` methods that you
@@ -180,53 +173,7 @@ should show that each of these was received by the destination.
      running it functions like a router that forwards packets, and uses DV to
      learn routes and update forwarding tables.
 
- - In the [Routing Lab](../lab-routing) each router announced its IP addresses
-   (i.e., in the DV), such that each learned the shortest distance (and next
-   hop) associated with a set of IP addresses--or /32 networks.  This was to
-   simplify implementation and to avoid dependency on ARP.  However, in a more
-   realistic scenario, prefixes (i.e., with more than one IP address) are
-   announced instead.
-
-   Modify your `DVRouter` implementation such that the DVs map IP prefixes to
-   distances instead of mapping IP addresses to distances.  This really only
-   requires a change in one place in your code.  When your router iterates over
-   its interfaces to populate its DV with its own IP addresses, substitute the
-   IP address with the IP prefix for that subnet, in x.x.x.x/y format.
-
-   For example, with the [current topology](#topology) `r1`'s initial DV (i.e.,
-   before it receives any DVs from neighbors) will look something like this:
-
-   - Prefix: 10.0.0.0/24; Distance: 0
-   - Prefix: 10.0.100.0/30; Distance: 0
-
-   And `r2`'s initial DV will look something like this:
-
-   - Prefix: 10.0.100.0/30; Distance: 0
-   - Prefix: 10.0.100.4/30; Distance: 0
-
-   It might seem confusing that prefix 10.0.100.0/30 originates from two
-   different routers, specifically `r1` and `r2`.  To help explain this
-   apparent discrepancy, remember that the goal of routing is not to get a
-   packet to the destination _host_ but to get the packet to the router that
-   has an interface in the same _subnet_ or _LAN_ as the destination.  So
-   whether a packet destined for 10.0.100.1 arrives at `r1` or `r2`, it doesn't
-   matter; both routers have an interface in 10.0.100.0/30 and thus can use ARP
-   and Ethernet to get the packet to its final destination.
-
-   The next question is how to _create_ the prefix.  First, recall that
-   the IP address and prefix length for each interface can be found with the
-   IP address object returned from the `ipv4_address_info_single()` method.
-   Using these two items, you can create the prefix using the
-   `ip_str_to_int()`, `ip_prefix()`, and `ip_int_to_str()` functions in
-   `prefix.py`.
-
-   Thus for an IP address of 192.0.2.2 and a prefix length of 24, the prefix
-   would be 192.0.2.0/24.
-
-   You can look at the `bcast_for_int()` method as an example.
-
-To test routing using prefixes and your own forwarding table, you can run the
-following:
+To test routing using your own forwarding table, you can run the following:
 
 ```bash
 $ cougarnet --disable-ipv6 scenario3.cfg
@@ -246,13 +193,13 @@ by the destination.
 
  - Copy the `buffer.py` file containing the working implementation of the
    `TCPSendBuffer` and `TCPReceiveBuffer` classes that you created in the
-   [TCP Lab](../lab-tcp-reliable-transport).
+   [TCP Lab](../11-lab-tcp-reliable-transport).
    to `buffer.py`.
  - Integrate your TCP implementation from the `TCPSocket` class into
    the `mysocket.py` file, using the `mysocket.py` you created in the
-   [Transport Layer Lab](../lab-transport-layer).
+   [Transport Layer Lab](../09-lab-transport-layer).
    _and_ the `mysocket.py` you created in the
-   [TCP Lab](../lab-tcp-reliable-transport).
+   [TCP Lab](../11-lab-tcp-reliable-transport).
    The former will have the methods for the TCP three-way handshake, and the
    latter will have the methods for reliable transport.
 
@@ -261,14 +208,14 @@ by the destination.
    use with this lab.  In particular, the initialization methods include
    additional arguments for a more full-featured and flexible TCP
    implementation.
- - In the [Transport Layer Lab](../lab-transport-layer) you implemented TCP's
+ - In the [Transport Layer Lab](../09-lab-transport-layer) you implemented TCP's
    three-way handshake by fleshing out (among others) the
    `TCPSocket.handle_syn()` and `TCPSocket.handle_synack()` methods.  In those
    methods the initial sequence number of the client and that of the server are
    learned, respectively, by the server and the client.  However, in that lab,
    no data was exchanged, so there was no need to initialize a receive buffer.
 
-   In the [TCP Lab](../lab-tcp-reliable-transport) data was reliably exchanged,
+   In the [TCP Lab](../11-lab-tcp-reliable-transport) data was reliably exchanged,
    but instead of using a three-way handshake to exchange initial sequence
    numbers, they were manually set using the `TCPSocket.bypass_handshake()`
    method.
@@ -325,7 +272,7 @@ The scripts associated with this configuration do the following:
 
  - Copy the `switch.py` file containing the working implementation of the `Switch`
    class that you created in the
-   [Link Layer Lab](../lab-link-layer).
+   [Link Layer Lab](../04-lab-link-layer).
    to `switch.py`.
 
 

@@ -8,6 +8,7 @@ between TCP sockets connected over a TCP connection.
 # Table of Contents
 
  - [Getting Started](#getting-started)
+   - [Maintain Your Repository](#maintain-your-repository)
    - [Update Cougarnet](#update-cougarnet)
    - [Resources Provided](#resources-provided)
    - [Helpful Reading](#helpful-reading)
@@ -31,6 +32,18 @@ between TCP sockets connected over a TCP connection.
 
 
 # Getting Started
+
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
+
 
 ## Update Cougarnet
 
@@ -56,7 +69,7 @@ The files given to you for this lab are the following:
    your TCP buffer implementations.
  - `host.py` - a file containing a basic implementation of a host.  Note that
    this is pared down version of the `Host` class you implemented in the
-   [Network-Layer Lab](../lab-network-layer)
+   [Network-Layer Lab](../06-lab-network-layer)
    in which the `send_packet()` method simply picks an outgoing interface,
    creates a frame with the broadcast address as its destination, and sends the
    frame out the interface.
@@ -64,7 +77,7 @@ The files given to you for this lab are the following:
  - `transporthost.py` - a file containing a basic implementation of a host that
    has transport-layer capabilities.  Note that this is pared down version of
    the `TransportHost` class you implemented in the
-   [Transport-Layer Lab](../lab-transport-layer).
+   [Transport-Layer Lab](../09-lab-transport-layer).
    in which the `handle_tcp()` simply expects a matching TCP connection to
    exist and calls `handle_packet()` on the corresponding socket, a `TCPSocket`
    instance.
@@ -116,7 +129,7 @@ to buffer bytes that are intended to be reliably sent, i.e., when
 The following image illustrates the role of the send buffer from the
 perspective of the `TCPSocket` class.
 
-![sendwindow-white.cfg](sendwindow-white.png)
+![sendwindow-white.cfg](images/sendwindow-white.png)
 
 The `TCPSocket` class implements the sliding window for reliable delivery, with
 the help of a `TCPSendBuffer` instance.  However, the `TCPSendBuffer` class
@@ -130,7 +143,7 @@ Both of these are dictated by the `TCPSocket` instance using methods that will
 be shown hereafter.  The perspective of the `TCPSendBuffer` is shown in the
 following diagram:
 
-![sendbuffer-white.cfg](sendbuffer-white.png)
+![sendbuffer-white.cfg](images/sendbuffer-white.png)
 
 Note that in both images the bytes labeled "Sent, ACK'd" are technically not
 part of the buffer because nothing more needs to be done with them!  They are
@@ -325,7 +338,7 @@ of in-order bytes, suitable for an application to call `TCPSocket.recv()`.
 The following image illustrates the problem faced by receive buffer from the
 perspective of the `TCPSocket` class.
 
-![receivebuffer-segments-white.cfg](receivebuffer-segments-white.png)
+![receivebuffer-segments-white.cfg](images/receivebuffer-segments-white.png)
 
 It receives different segments of data, possible overlapping, possibly out of
 order, and possibly with holes in between.  Each segment has a starting
@@ -338,7 +351,7 @@ length, these segments can be stitched together, with duplicate bytes removed,
 once all the bytes have been received.  For example, a byte-level
 representation of the receive buffer illustrated above is shown below:
 
-![receivebuffer-bytes-white.cfg](receivebuffer-bytes-white.png)
+![receivebuffer-bytes-white.cfg](images/receivebuffer-bytes-white.png)
 
 A few things to note in this particular example:
  - The first three bytes (i.e., starting with `base_seq`) have not yet been
@@ -362,7 +375,7 @@ Once an in-order sequence of bytes is ready, it can be sent to the ready
 buffer, which is simply a queue of bytes from which a `TCPSocket()` reads when
 its `recv()` method is called.
 
-![readybuffer-white.cfg](readybuffer-white.png)
+![readybuffer-white.cfg](images/readybuffer-white.png)
 
 
 ## Instructions
@@ -405,7 +418,7 @@ In the file `buffer.py`, flesh out the following methods for the
      or equal to`base_seq`, then ignore it.  It is old data.
 
      For example, if `base_seq = 2021`, and a segment with sequence 2001 and
-     length 4 is received, it is discarded (i.e.., because 2001 + 4 <= 2021).
+     length 4 is received, it is discarded (i.e., because 2001 + 4 <= 2021).
    - If a segment is received, and its starting sequence number is less than
      `base_seq`, but its length makes it extend to `base_seq` or beyond, then
      trim the first bytes off, so that it starts with `base_seq` and is stored
@@ -547,12 +560,12 @@ filling in gaps.
 Finally, the transport-layer multiplexing functionality has been implemented
 for you, in a version of `TransportHost` with a very basic implementation of
 `TransportHost.handle_tcp()` (see the
-[Transport-Layer Lab](../lab-transport-layer)).
+[Transport-Layer Lab](../09-lab-transport-layer)).
 
 However, his lab requires that you have the `TCPHeader` and `IPv4Header`
 classes fleshed out, as well as the `TCPSocket.create_packet()` and
 `TCPSocket.send_packet()` methods, as directed in the
-[Transport-Layer Lab](../lab-transport-layer)
+[Transport-Layer Lab](../09-lab-transport-layer)
 
 A few words about TCP configuration parameters.  The Maximum Segment Size (MSS)
 is 1,000 bytes.  However, you can find that in the `mss` instance variable of
@@ -571,7 +584,7 @@ may or may not acknowledge new data.
 ## Instructions
 
 Integrate the following code from your implementation of the
-[Transport Layer](../lab-transport-layer):
+[Transport Layer](../09-lab-transport-layer):
 
  - The `TCPHeader` and `IPv4Header` classes from `headers.py`.
  - The `TCPSocket.create_packet()` and `TCPSocket.send_packet()` methods from
@@ -746,7 +759,7 @@ When this is working, test on an even larger file, `byu-y-mtn.jpg`:
 $ cougarnet --vars loss=0,window=10000,file=byu-y-mtn.jpg,fast_retransmit=off scenario1.cfg
 ```
 
-This one should transfer in roughly 12 seconds and should also be in tact:
+This one should transfer in roughly 15 seconds and should also be in tact:
 
 ```
 $ sha1sum byu-y-mtn.jpg downloads/byu-y-mtn.jpg
@@ -761,7 +774,11 @@ bytes:
 $ cougarnet --vars loss=0,window=50000,file=byu-y-mtn.jpg,fast_retransmit=off scenario1.cfg
 ```
 
-The larger window should cut the transfer time down to about 5 seconds.
+The larger window _should_ cut the transfer time down significantly.  However,
+because some architectures and virtualization platforms perform differently, we
+have observed cases in which the reduction in transfer time is not significant.
+At the very least, however, the transfer time should not be expected to
+increase.
 
 
 ### Some Loss
@@ -784,7 +801,8 @@ $ cougarnet --vars loss=1,window=50000,file=byu-y-mtn.jpg,fast_retransmit=off sc
 ```
 
 The file should still transfer properly (i.e., as shown by `sha1sum`), though
-it might take up to 60 seconds or more with the timeouts and retransmissions.
+it might take 40 - 60 seconds -- or perhaps longer -- with the timeouts and
+retransmissions.
 
 
 ## All Together
@@ -829,7 +847,7 @@ $ cougarnet --vars loss=0,window=10000,file=byu-y-mtn.jpg,fast_retransmit=on --t
 $ cougarnet --vars loss=0,window=50000,file=byu-y-mtn.jpg,fast_retransmit=on --terminal=none scenario1.cfg
 ```
 
-Running the tests with packet loss should result in faster transmission times:
+Running the tests with packet loss _should_ result in faster transmission times:
 
 ```
 $ cougarnet --vars loss=5,window=10000,file=test.txt,fast_retransmit=on scenario1.cfg
@@ -845,8 +863,14 @@ e742dc9de5bac34d82117e015f597378a205e5c1  test.txt
 e742dc9de5bac34d82117e015f597378a205e5c1  downloads/test.txt
 ```
 
-Likewise, the file `byu-y-mtn.jpg` should transfer in about 5 or 6 seconds, and it
-should be in tact:
+Likewise, the file `byu-y-mtn.jpg` should transfer in about 5 or 6 seconds,
+Fast retransmit _should_ cut the transfer time down significantly from the
+scenario where fast retransmit is not used.  However, because some
+architectures and virtualization platforms perform differently, we have
+observed cases in which the reduction in transfer time is not significant.  At
+the very least, however, the transfer time should not be expected to increase.
+
+Also, the file should be in tact:
 
 ```
 $ sha1sum byu-y-mtn.jpg downloads/byu-y-mtn.jpg
@@ -928,7 +952,7 @@ should see the exponential growth associated with the slow start state
 (beginning at 0) followed by congestion avoidance (starting at around 0.8
 seconds).  If you need a reminder of the meaning of the Time Sequence plot or
 whether or not it is showing correct behavior, refer to the
-[Transport-Layer Homework](../hw-transport-layer)
+[Transport-Layer Homework](../10-hw-transport-layer)
 
 If everything looks good, click "Save As...", and save the file as
 `tahoe-noloss.png`.

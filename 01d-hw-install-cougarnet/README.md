@@ -14,7 +14,7 @@ Cougarnet:
 
 ```bash
 $ sudo apt install git python3-setuptools
-$ sudo apt install openvswitch-switch tmux python3-pyroute2 lxterminal python3-pygraphviz libgraph-easy-perl tcpdump wireshark socat
+$ sudo apt install openvswitch-switch frr tmux iptables python3-pyroute2 lxterminal python3-pygraphviz libgraph-easy-perl tcpdump wireshark socat
 ```
 
 ## Install Cougarnet
@@ -30,7 +30,7 @@ $ sudo python3 setup.py install
 
 *Important:*  This must be done _outside_ of any shared folders that you have
 configured (see the
-[previous homework](../hw-create-vm/)).
+[previous homework](../01a-hw-create-vm/)).
 
 
 ## Configure System
@@ -55,7 +55,7 @@ configured (see the
     Note that `/etc/sudoers` is the configuration file for `sudo`.  On many
     systems, files in the directory `/etc/sudoers.d` are "included" by
     `/etc/sudoers`, and it is preferred to create local configuration (i.e.,
-    overriding the default) in files in this directory, ratehr than modifying
+    overriding the default) in files in this directory, rather than modifying
     `/etc/sudoers` directly.  Finally, the proper way to to modify the `sudo`
     configuration (whether `/etc/sudoers` or an included file) is using the
     `visudo` command, as shown above.

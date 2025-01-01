@@ -6,6 +6,7 @@ transport-layer multiplexing, and the TCP three-way handshake.
 
 # Table of Contents
  - [Getting Started](#getting-started)
+   - [Maintain Your Repository](#maintain-your-repository)
    - [Update Cougarnet](#update-cougarnet)
    - [Resources Provided](#resources-provided)
    - [Topology](#topology)
@@ -28,6 +29,18 @@ transport-layer multiplexing, and the TCP three-way handshake.
 
 
 # Getting Started
+
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
+
 
 ## Update Cougarnet
 
@@ -54,7 +67,7 @@ The files given to you for this lab are the following:
    IPv4 and TCP header implementations.  You will also do your work here!
  - `host.py` - a file containing a basic implementation of a host.  Note that
    this is pared down version of the `Host` class you implemented in the
-   [Network-Layer Lab](../lab-network-layer)
+   [Network-Layer Lab](../06-lab-network-layer)
    in which the `send_packet()` method simply picks an outgoing interface,
    creates a frame with the broadcast address as its destination, and sends the
    frame out the interface.
@@ -181,7 +194,6 @@ wide.
 <tr>
 <td colspan="32">Options and padding :::</td></tr>
 </table>
-(See also http://www.networksorcery.com/Enp/protocol/ip.htm)
 
  - Version - IP version.  This will always be 4 for the IPv4 header.
  - IHL - Internet header length in 4-byte words.  The IPv4 header is 20 bytes long without
@@ -218,7 +230,6 @@ wide.
 <td colspan="16">Length</td>
 <td colspan="16">Checksum</td></tr>
 </table>
-(See also http://www.networksorcery.com/Enp/protocol/udp.htm)
 
  - Source Port
  - Destination Port
@@ -255,7 +266,6 @@ wide.
 <tr>
 <td colspan="32">Options and padding :::</td></tr>
 </table>
-(See also http://www.networksorcery.com/Enp/protocol/tcp.htm)
 
  - Source Port
  - Destination Port

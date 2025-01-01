@@ -8,6 +8,7 @@ implementing a link-layer switch!
 # Table of Contents
 
  - [Getting Started](#getting-started)
+   - [Maintain Your Repository](#maintain-your-repository)
    - [Update Cougarnet](#update-cougarnet)
    - [Resources Provided](#resources-provided)
    - [Starter Commands](#starter-commands)
@@ -27,6 +28,17 @@ implementing a link-layer switch!
 
 
 # Getting Started
+
+## Maintain Your Repository
+
+ Before beginning:
+ - [Mirror the class repository](../01b-hw-private-repo-mirror), if you haven't
+   already.
+ - [Merge upstream changes](../01b-hw-private-repo-mirror#update-your-mirrored-repository-from-the-upstream)
+   into your private repository.
+
+ As you complete the assignment:
+ - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
 
 
 ## Update Cougarnet
@@ -285,13 +297,14 @@ Then implement a basic switch in `switch.py` with the following functionality:
  - A broadcast frame (i.e., having destination MAC address `ff:ff:ff:ff:ff:ff`)
    is forwarded as-is to all interfaces, except that from which it originated.
 
+Note that it might be easiest to start with basic switch functionality, then
+implement the aging time.  See the [Help](#helps) section for an
+[Ethernet frame reference](#ethernet-frames), as well as implementation tips
+and examples.
+
 Test your implementation against scenarios 1 and 2.  Determine the appropriate
 output--that is, which hosts should receive which frames--and make sure that
 the output for your switch implementation matches appropriately.
-
-See the [Help](#helps) section for an
-[Ethernet frame reference](#ethernet-frames), as well as implementation tips
-and examples.
 
 When it is working properly, test also with the `--terminal=none` option:
 
@@ -304,7 +317,7 @@ You can also use the driver provided for
 [automated testing](#automated-testing).
 
 Now would be a good time to
-[save your work](../contrib/github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
+[save your work](../01b-hw-github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
 
 
 ## Part 2 - VLANs and Trunking
@@ -556,6 +569,18 @@ For more info see the following:
  - [`struct` documentation](https://docs.python.org/3/library/struct.html)
 
 
+## Sending and Receiving Frames
+
+The
+[Cougarnet documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames)
+explains how frames can be sent and received using the methods provided by the
+`BaseHost` class.  In particular, you will find the `physical_interfaces()`,
+`_handle_frame()`, and `send_frame()` methods very useful.  These methods are
+demonstrated in a working example of a hub (`class Hub`), which forwards frames
+like a switch but does not learn outgoing ports associated with MAC addresses (see the
+[documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames)).
+
+
 ## Other Helps
 
  - Use wireshark to capture and display frames on interfaces that you are
@@ -575,9 +600,9 @@ For more info see the following:
    scenario files used will be the stock files [you were provided](#resources-provided).
  - Save your work often, especially after you finish Part 1 and move on to
    Part 2.  You are encouraged to
-   [commit your changes](../contrib/github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
+   [commit your changes](../01b-hw-github-repo-mirror/README.md#commit-and-push-local-changes-to-private-repo).
    to the private GitHub repository that you created
-   [in an earlier assignment](../contrib/github-repo-mirror/README.md).
+   [in an earlier assignment](../01b-hw-github-repo-mirror/README.md).
    Please ensure that it remains private!
 
 
