@@ -270,7 +270,7 @@ class Scenario5(Lab6Tester):
 
         return True
 
-    def echo_data(self, iteration, time_seen, observations, participants, forward=True):
+    def echo_data(self, iteration, time_seen, observations, participants, forward=True, data=None):
         if forward:
             origin = 0
             destination = 1
@@ -319,6 +319,9 @@ class Scenario5(Lab6Tester):
                 'srcaddr': host_match.group('srcaddr'),
                 'dstaddr': host_match.group('dstaddr'),
                 'seq': int(host_match.group('seq')) }
+        if data is not None:
+            host_correct['data'] = data
+            host_observed['data'] = host_match.group('data')
         if hostname != participants[destination]:
             sys.stderr.write('Data packet was expected at %s, not %s\n' % \
                      (participants[destination], hostname))
@@ -354,6 +357,7 @@ class Scenario5(Lab6Tester):
                 'dstaddr': key[key_order[2]],
                 'seq': self.seq[participants][key][destination],
                 'ack': self.seq[participants][key][origin],
+                'data': ''
                 }
         host2_observed = {
                 'srcport': host2_match.group('srcport'),
@@ -361,7 +365,9 @@ class Scenario5(Lab6Tester):
                 'srcaddr': host2_match.group('srcaddr'),
                 'dstaddr': host2_match.group('dstaddr'),
                 'seq': int(host2_match.group('seq')),
-                'ack': int(host2_match.group('ack')) }
+                'ack': int(host2_match.group('ack')),
+                'data': host2_match.group('data'),
+                }
         if hostname != participants[origin]:
             sys.stderr.write('ACK packet was expected at %s, not %s\n' % \
                      (participants[origin], hostname))
@@ -374,7 +380,7 @@ class Scenario5(Lab6Tester):
             pass
 
         if forward:
-            ret = self.echo_data(iteration, time_seen, observations, participants, forward=False)
+            ret = self.echo_data(iteration, time_seen, observations, participants, forward=False, data=host_match.group('data'))
             if not ret:
                 return False
 
