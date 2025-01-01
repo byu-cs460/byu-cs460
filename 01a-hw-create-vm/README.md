@@ -224,7 +224,7 @@ might need to adapt these instructions.
     that will be useful for you in this class:
 
     ```
-    $ sudo apt install wireshark tcpdump
+    $ sudo apt install wireshark tcpdump iptables
     $ sudo apt install python3-scapy python3-pip python3-pygraphviz virtualenv
     $ sudo apt install git tmux vim
     ```
