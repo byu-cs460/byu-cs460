@@ -10,7 +10,6 @@ and communicate over that path from socket to socket, process to process.
 
  - [Getting Started](#getting-started)
    - [Maintain Your Repository](#maintain-your-repository)
-   - [Update Cougarnet](#update-cougarnet)
    - [Resources Provided](#resources-provided)
    - [Topology](#topology)
  - [Instructions](#instructions)
@@ -36,21 +35,6 @@ and communicate over that path from socket to socket, process to process.
 
  As you complete the assignment:
  - [Commit changes to your private repository](../01b-hw-private-repo-mirror#commit-and-push-local-changes-to-your-private-repo).
-
-
-## Update Cougarnet
-
-Make sure you have the most up-to-date version of Cougarnet installed by
-running the following in your `cougarnet` directory:
-
-```bash
-$ git pull
-$ python3 setup.py build
-$ sudo python3 setup.py install
-```
-
-Remember that you can always get the most up-to-date documentation for
-Cougarnet [here](https://github.com/cdeccio/cougarnet/blob/main/README.md).
 
 
 ## Resources Provided
