@@ -77,18 +77,9 @@ implementation in the next step.
 
 ## Integrate Forwarding Table
 
- - Integrate your implementation of `ForwardingTable.get_entry()` into
-   `forwarding_table.py`, using the `forwarding_table.py` you created in the
-   [Network Layer Lab](../06-lab-network-layer).  You might also like to bring
-   over the doctests.
-
-   It is important that you integrate your code in the newer file, rather than
-   simply overwriting the existing file; the existing files have been updated,
-   including a bug fix and the addition of a new method.
- - Copy the `prefix.py` file that you created in the
-   [Network Layer Lab](../06-lab-network-layer) to the current directory,
-   overwriting the stock file that was provided.
-
+Copy the `prefix.py` and `forwarding_table.py` files that you created in the
+[Network Layer Lab](../06-lab-network-layer) to the current directory,
+overwriting the stock files that were provided.
 
 To test the functionality of subnet-level broadcasts with the help of your
 forwarding table, you can run the following:
