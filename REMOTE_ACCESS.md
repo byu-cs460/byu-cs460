@@ -1,77 +1,84 @@
-# CS Lab Machine Remote Access
+# Remote Access to CS Lab Machines
 
-This document contains important information for accessing the CS lab machines
-remotely.
+Throughout this class, you will be required to log on to a CS lab machine to
+complete an assignment.  You are welcome to log on to a CS lab machine
+directly, by sitting at a workstation in one of the labs.  However, you can
+also access the lab machines remotely, which is often more convenient.  To log on
+remotely, please follow these instructions.
 
+Please note that access to the CS network and individual CS lab machines
+requires that you are currently enrolled in a CS class.  If you are not
+currently enrolled in a CS class, then you will not be granted access to the CS
+network or individual lab machines.
 
-## Remote Access
+ 1. Access the CS network.
 
- - *If you are in the TMCB*, simply connect to the "eduroam" WiFi.
+    To log on to a CS lab machine remotely, you must access the CS network.
+    There are two ways to access the CS network:
 
- - *If you are outside the TMCB, including off-campus and other parts of campus*:
+    - *If you are in the TMCB*, simply connect to the "eduroam" WiFi.  If you
+      are in the TMCB and you are currently enrolled in a CS class, then
+      connecting to "eduroam" gives you access to the CS lab machines.
 
-   1. If you haven't already,
-      [install the BYU CS VPN](https://docs.cs.byu.edu/doku.php?id=vpn-configuration-and-use).
+      Note that "eduroam" requires that you use your BYU credentials; that is,
+      your BYU NetID and password.
 
-   2. [Connect to the BYU CS VPN](https://docs.cs.byu.edu/doku.php?id=vpn-configuration-and-use).
+    - *If you are outside the TMCB, including off-campus and other parts of
+      campus*, [install the BYU CS VPN](https://cs-vpn.byu.edu/), if you
+      haven't already.  Then connect to the BYU CS VPN by opening the software
+      you installed and connecting to the VPN at "cs-vpn.byu.edu".
 
-   3. Once connected, follow the homework instructions as written. This
-      includes `ssh`, `scp`, and VS Code with the SSH Remote extension.
+      Note that using the BYU CS VPN requires that you use your BYU
+      credentials; that is, your BYU NetID and password.
 
-   4. When you are done using the VPN, please disconnect.
+ 2. Log on to a CS Lab Machine Using SSH.
 
+    At this point, you can access either an _arbitrary_ or a _specific_ CS lab
+    machine remotely over SSH.
 
- Once you are connected to the "eduroam" WiFi *or* you are connected to the BYU
- CS VPN, you may do any of the following to access resources on the BYU CS
- network:
+    - *Arbitrary lab machine.*  You can log on to an _arbitrary_ CS lab machine
+      remotely over SSH by running the following from a terminal on your
+      machine:
 
- - Use `ssh` to gain remote terminal access to a specific
-   [CS lab machine](https://docs.cs.byu.edu/doku.php?id=open-lab-layout)
-   by its hostname.  For example:
+      (Replace "username" with your BYU CS username -- not your BYU NetID)
 
-   ```
-   $ ssh nebraska 
-   ```
+      ```bash
+      ssh username@schizo.cs.byu.edu
+      ```
+      or simply:
+      ```bash
+      ssh username@schizo
+      ```
+      (There is some magic that automatically adds the "cs.byu.edu" suffix if
+      you are on the CS network.)
 
- - Use `ssh` to gain remote terminal access to any of the
-   [CS lab machines](https://docs.cs.byu.edu/doku.php?id=open-lab-layout)
-   using `schizo`.  For example:
+      You can think of schizo as a load balancer for SSH.  That is, when you
+      use schizo, you ultimately log on to _some_ CS lab machine.  Two
+      consecutive connections to schizo might land you on two different lab
+      machines.
 
-   ```
-   $ ssh shizo 
-   ```
+      Note that your home directory is shared across all lab machines (using
+      the network file server or NFS), so you can access the files in your
+      home directory no matter which lab machine you log on to.
 
- - Use `scp` to transfer files to and from your folder on the
-   [CS lab machines](https://docs.cs.byu.edu/doku.php?id=open-lab-layout)
-   using either a specific CS lab machine or `schizo.cs.byu.edu`.  For example:
+    - *Specific Lab Machine.*  A list of CS lab machines can be found
+      [here](https://support.cs.byu.edu/KB/View/81187473).  You can log on to
+      a _specific_ CS machine remotely over SSH by running the following:
 
-   ```
-   $ scp some/src/folder/myfile.txt shizo:some/dest/folder
-   ```
+      (Replace "username" with your BYU CS username -- not your BYU NetID.
+      Also, replace "hostname" with the name of the machine to which you are
+      logging on.  For example: "florida".)
 
-  - Use VS Code with the SSH Remote extension to carry out remote command
-    execution over SSH as part of your development environment.
+      ```bash
+      ssh username@hostname
+      ```
 
-## Other Options
+    In addition to remote terminal access with the `ssh` command, you can also
+    use `scp` (for copying files securely) and VS Code with the SSH Remote
+    extension.
 
-If, for some reason, the remote access options listed above do not work for
-you, here are two alternatives, each with their own limitations:
+    For example:
 
- - *Log on directly to one of the CS workstations.* Of course, this means that
-   you need to be in the TMCB and develop on a CS workstation as opposed to
-   developing on your laptop. But with this solution, you avoid all the troubles
-   associated with remote login and authentication.
-
- - *Log on to one of the CS workstations for SSH-only access.*  To do this open
-   a terminal on your system, and run
-
-   ```
-   ssh schizo.cs.byu.edu
-   ```
-
-   Then [follow the instructions](https://docs.cs.byu.edu/doku.php?id=remote-access-home#ssh-into-moat).
-   It's fine to use the name "schizo" instead of "moat", so it stays consistent
-   with all the homework instructions.  Please NOTE this solution is really for
-   terminal access only and may not work with scp or VS Code.  Only use this
-   option if the other options don't work and you're comfortable working in
-   only a terminal with an editor like `vim`.
+    ```bash
+    scp some/src/folder/myfile.txt shizo:some/dest/folder
+    ```
