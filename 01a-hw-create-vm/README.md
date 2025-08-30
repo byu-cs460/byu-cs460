@@ -19,6 +19,7 @@ this environment.
  - [VirtualBox 7.x for Windows, Linux, and MacOS (amd64 only)](#virtualbox-7x-for-windows-linux-and-macos-amd64-only)
  - [UTM/Qemu on MacOS (required for Apple Silicon (M1/M2/M3))](#utmqemu-on-macos-required-for-apple-silicon-m1m2m3)
 
+
 # VirtualBox 7.x for Windows, Linux, and MacOS (amd64 only)
 
 Please note that for Mac systems using Apple Silicon (M1/M2/M3), you should use the
@@ -70,8 +71,9 @@ might need to adapt these instructions.
 
  7. At the "Summary" dialog, click "Finish".
 
- 8. In the VM, go through the Debian installation using all the default options,
-    except for the following:
+ 8. In the VM, go through the Debian installation process.  If there are
+    options for which you aren't sure what you enter, just use the default,
+    noting the following exceptions:
 
     a. At the "Partition Disks" dialog, you will be asked if you want to write
        changes to disk.  You will need to change the answer from the default
@@ -99,38 +101,46 @@ might need to adapt these instructions.
     username and password that you created during installation.
 
  10. Within the LXDE desktop environment in the VM, open a terminal
-     (`LXTerminal`) and do the following to add yourself to the `sudo` group:
+     (`LXTerminal`) and do the following to add your user to the `sudo` group:
 
      a. Run the following from the command line to temporarily become `root`
         (system administrator):
 
         ```
-        $ su -
+        su -
         ```
 
         When prompted, enter the password for the `root` user.
 
      b. At the `root` (`#`) prompt, run the following to add your user to the
-        `sudo`:
+        `sudo` group:
+
+        (Replace "$USER" with the username of your regular, non-root user.
 
         ```
-        # usermod -a -G sudo $USER
+        usermod -a -G sudo $USER
         ```
 
-        (Replace `$USER` with the username of your regular, non-root user.
+     c. Log out of LXDE and log back in to make the group membership changes
+        take effect.
 
-        Note, however, that when running later commands with `sudo`, you will be
-        able to leave `$USER` as-is because the shell will automatically
-        replace it with your username before the command is run.  However, in
-        this case, the user running the command is `root`, so `$USER`, would be
-        replaced with `root`, not your username, and that is not what you want.)
+     d. Test your `sudo` access by running the following:
 
- 11. In the VM, log out of LXDE and log back in.  As a member of the `sudo`
-     group, you will be able to run commands that require administrator
-     privileges on a command-by-command basis using `sudo`, rather than working
-     as the `root` user, which is discouraged.
+        ```
+        sudo ls -l /root/
+        ```
 
- 12. Do the following to to install the VirtualBox Guest additions:
+        (This just lists the directory contents of `/root`, which is the
+        `root` user's home directory.  A non-privileged user would not be able
+        to see the contents, but by running `ls` with `sudo`, you should see
+        the empty directory.)
+
+     As a member of the `sudo` group, you will be able to run commands that
+     require administrator privileges on a command-by-command basis using `sudo`,
+     rather than being logged in as the `root` user, which is typically
+     discouraged.
+
+ 11. Do the following to to install the VirtualBox Guest additions:
 
      a. On the host system, select "Devices" from the VirtualBox menu, then select
         "Insert Guest Additions CD Image...".
@@ -142,15 +152,15 @@ might need to adapt these instructions.
         virtual CD containing the guest additions.
 
         ```
-        $ mount /media/cdrom
+        mount /media/cdrom
         ```
 
      d. From the open terminal, run the following commands to build and install
         the VirtualBox Guest Additions for your VM:
 
         ```
-        $ sudo apt install linux-headers-amd64 build-essential
-        $ sudo sh /media/cdrom/VBoxLinuxAdditions.run
+        sudo apt install linux-headers-amd64 build-essential
+        sudo sh /media/cdrom/VBoxLinuxAdditions.run
         ```
 
      e. Reboot your VM to have the changes take effect.
@@ -162,14 +172,14 @@ might need to adapt these instructions.
     and VM and use a shared clipboard, which will be accomplished in a
     subsequent step.
 
- 13. On the host machine, do the following to set up a shared folder:
+ 12. On the host machine, do the following to set up a shared folder:
 
      a. From VirtualBox "Devices" menu, select "Shared Folders" then "Shared
         Folders Settings...".
 
      b. Click the button to add a shared folder.
 
-     c. Choose which folder from the _host_ system you would like to share 
+     c. Choose which folder from the _host_ system you would like to share
         (e.g., `/Users/$HOSTUSER/shared`, where your actual username on the
         host OS replaces `$HOSTUSER`).
 
@@ -181,65 +191,72 @@ might need to adapt these instructions.
 
      For more information, see the
      [official documentation](https://www.virtualbox.org/manual/ch04.html#sharedfolders).
- 
-14. Within the VM, do the following from a prompt to add your user to the
-    `vboxsf` (VirtualBox shared folders) group:
 
-    ```
-    $ sudo usermod -a -G vboxsf $USER
-    ```
+ 13. Within the VM, do the following to add your user to the `vboxsf`
+     (VirtualBox shared folders) group:
 
-15. In the VM, log out of LXDE and log back in.  As a member of the `vboxsf`
-    group, you will be able to access the folder `/Users/$HOSTUSER/shared` (or
-    whichever folder you selected) on the host from `/home/$GUESTUSER/shared`
-    (or whichever mount point you selected) in the VM.
+     a. Run the following to add your user to the `vboxsf` group:
 
-16. On the host machine, do the following to enable copy and paste between
-    your host and your VM.
+        ```
+        sudo usermod -a -G vboxsf $USER
+        ```
 
-    From the VirtualBox "Devices" menu, select "Shared Clipboard" then
-    "Bidirectional".
+     b. Log out of LXDE and log back in to make the group membership changes
+        take effect.
 
-17. In the VM, open a terminal, and run the following to remove some unnecessary
-    packages from your VM:
+     As a member of the `vboxsf` group, you will be able to access the folder
+     `/Users/$HOSTUSER/shared` (or whichever folder you selected) on the host
+     from `/home/$GUESTUSER/shared` (or whichever mount point you selected) in
+     the VM.
 
-    ```
-    $ sudo apt purge libreoffice-{impress,math,writer,draw,base-core,core,help-common,core-nogui} xscreensaver
-    $ sudo apt purge connman
-    $ sudo apt autoremove
-    ```
+ 14. On the host machine, do the following to enable copy and paste between
+     your host and your VM.
 
- 18. In the VM, disable the screen locker by doing the following:
+     From the VirtualBox "Devices" menu, select "Shared Clipboard" then
+     "Bidirectional".
+
+ 15. In the VM, open a terminal, and run the following to remove some
+     unnecessary packages from your VM:
+
+     ```
+     sudo apt purge libreoffice-{impress,math,writer,draw,base-core,core,help-common,core-nogui} xscreensaver
+     sudo apt autoremove
+     ```
+
+     This uninstalls LibreOffice, XScreenSaver, and any packages that are no
+     longer needed because those two are removed.
+
+ 16. In the VM, disable the screen locker by doing the following:
 
      a. Select "Preferences" then "Desktop Session Settings" from the menu.
 
      b. Uncheck the box titled "Screen Locker," and click "OK".
 
-     c. Log out of LXDE and log back in.
+     c. Log out of LXDE and log back in to make the changes take effect.
 
- 19. In the VM, open a terminal, and run the following to install a few packages
-     that will be useful for you in this class:
-
-     ```
-     $ sudo apt install wireshark tcpdump iptables
-     $ sudo apt install python3-scapy python3-pip python3-pygraphviz virtualenv
-     $ sudo apt install git tmux vim
-     ```
-
-    At the prompt "Should non-superusers be able to capture packets?" (for
-    `wireshark`), select "No".
-
- 20. Run the following to give `tcpdump`, `wireshark`, and `dumpcap` targeted
-     capabilities, so an unprivileged user can run them to observe network
-     packets without elevating to `root`:
+ 18. In the VM, open a terminal, and run the following to install a few
+     packages that will be useful for you in this class:
 
      ```
-     $ sudo setcap cap_net_raw=eip /usr/bin/tcpdump
-     $ sudo setcap cap_net_raw=eip /usr/bin/wireshark
-     $ sudo setcap cap_net_raw=eip /usr/bin/dumpcap
+     sudo apt install git tmux vim build-essential make
+     sudo apt install wireshark tcpdump iptables
+     sudo apt install python3-{scapy,pip} virtualenv
      ```
 
- 21. Install whatever other tools and utilities that you think will improve your
+     At the prompt "Should non-superusers be able to capture packets?" (for
+     `wireshark`), select "No".  We will handle that with the next step.
+
+     Next run the following to give `tcpdump`, `wireshark`, and `dumpcap`
+     targeted capabilities, so an unprivileged user can run them to observe
+     network packets without elevating to `root`:
+
+     ```
+     sudo setcap cap_net_raw=eip /usr/bin/tcpdump
+     sudo setcap cap_net_raw=eip /usr/bin/wireshark
+     sudo setcap cap_net_raw=eip /usr/bin/dumpcap
+     ```
+
+ 19. Install whatever other tools and utilities that you think will improve your
      development environment.  Please note that if you have configured shared folders
      as described above, you can use whatever development environment you have already
      installed on your host to manipulate files in `/home/$USER/shared` or some
@@ -251,7 +268,7 @@ might need to adapt these instructions.
 
  1. Install [Homebrew](https://brew.sh/).
 
- 2. Install qemu and utm:
+ 2. Install qemu and utm by running the following from an open Terminal:
 
     ```bash
     brew install utm qemu
@@ -281,13 +298,18 @@ might need to adapt these instructions.
        like to share (e.g., `/Users/$HOSTUSER/shared`, where your actual
        username on the host OS replaces `$HOSTUSER`).  Then click "Continue".
 
-    h. Click "Play".
+    h. Summary: Give your VM a meaningful name.  Then click "Play".
 
- 5. Follow steps 8 through 11 from the
-    [VirtualBox instructions](#virtualbox-7x-for-windows-linux-and-macos-amd64-only).
+ 5. Start your VM by clicking the "play" icon next to its name.  It will boot
+    from the installation image (`.iso` file) you downloaded.
 
-    Before the system reboots (the final installation step), "remove" the
-    install CD by doing the following within the host system:
+ 6. Follow steps 8 through 10 from the
+    [VirtualBox instructions](#virtualbox-7x-for-windows-linux-and-macos-amd64-only),
+    noting this important addition:
+
+    At the very last dialog before the system reboots ("Finish the
+    installation") "remove" the install CD by doing the following within the
+    host system:
 
     a. Click the "Drive Image Options" button.
 
@@ -295,63 +317,66 @@ might need to adapt these instructions.
 
     c. Click "Eject".
 
- 7. Within the VM, open a terminal, and run the following from the command to
-    install utilities for allowing the host to interact with the VM:
+    Then select "Continue" to finish the installation and reboot.
+
+ 7. Within the guest OS, open a terminal, and run the following from the command
+    to install utilities for allowing the host to interact with the guest:
 
     ```bash
     sudo apt install spice-vdagent
     ```
 
- 8. Reboot the VM to have the changes take effect.
+ 8. Reboot your VM to have the changes take effect.
 
- 9. Within the VM, mount the shared directory by running the following from
-    within a terminal:
+ 9. Mount the shared directory.
 
-    a. Create a mount point on the VM:
+ 10. Within the VM, mount the shared directory by running the following from
+     within a terminal:
 
-       ```bash
-       sudo mkdir /media/shared
-       ```
+     a. Create a mount point on the VM:
 
-    b. Mount the shared volume as type `9p`:
+        ```bash
+        sudo mkdir /media/shared
+        ```
 
-       ```bash
-       sudo mount -t 9p -o trans=virtio,version=9p2000.L share /media/shared/
-       ```
+     b. Mount the shared volume as type `9p`:
 
-    c. Change the permissions (from only the VM perspective) on files and
-       directories in the shared directory, so your user (in the VM) can access
-       the files.
+        ```bash
+        sudo mount -t 9p -o trans=virtio,version=9p2000.L share /media/shared/
+        ```
 
-       ```bash
-       sudo chown -R $USER /media/shared/
-       ```
+     c. Change the permissions (from only the VM perspective) on files and
+        directories in the shared directory, so your user (in the VM) can
+        access the files.
 
-      (Note: You can leave `$USER` as-is because the shell will automatically
-      replace it with your username before the command is run.  You can see
-      this by running `echo $USER`.)
+        ```bash
+        sudo chown -R $USER /media/shared/
+        ```
 
-    d. Test your new mount by listing directory contents:
+       (Note: You can leave `$USER` as-is because the shell will automatically
+       replace it with your username before the command is run.  You can see
+       this by running `echo $USER`.)
 
-       ```bash
-       ls -l /media/shared
-       ```
+     d. Test your new mount by listing directory contents:
 
-    e. Add the following line to `/etc/fstab` such that the shared volume is
-       mounted automatically at boot:
+        ```bash
+        ls -l /media/shared
+        ```
 
-       ```
-       share	/media/shared	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
-       ```
+     e. Add the following line to `/etc/fstab` such that the shared volume is
+        mounted automatically at boot:
 
-    f. Optionally create a symbolic link to the share mount from your home
-       directory:
+        ```
+        share	/media/shared	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
+        ```
 
-       ```bash
-       ln -s /media/shared/ ~/shared
-       ls -l ~/shared
-       ```
+     f. Optionally create a symbolic link to the share mount from your home
+        directory:
 
+        ```bash
+        ln -s /media/shared/ ~/shared
+        ls -l ~/shared
+        ```
 
-10. Follow steps 17 through 21 from the
-   [VirtualBox instructions](#virtualbox-7x-for-windows-linux-and-macos-amd64-only).
+ 10. Follow steps 15 through 19 from the
+     [VirtualBox instructions](#virtualbox-7x-for-windows-linux-and-macos-amd64-only).
