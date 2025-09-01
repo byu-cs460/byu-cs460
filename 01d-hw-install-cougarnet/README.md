@@ -111,5 +111,5 @@ sudo pip3 install --root-user-action ignore --break-system-packages .
    While much of it might not make sense just yet, you will be referring back
    to this as you work on the labs.
 
-2. Complete the four
+2. Complete the five
    [Working Examples](https://github.com/cdeccio/cougarnet/blob/main/README.md#working-examples)
