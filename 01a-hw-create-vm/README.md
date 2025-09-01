@@ -319,64 +319,68 @@ might need to adapt these instructions.
 
     Then select "Continue" to finish the installation and reboot.
 
- 7. Within the guest OS, open a terminal, and run the following from the command
-    to install utilities for allowing the host to interact with the guest:
+ 7. Within the VM, mount the shared directory by running the following from
+    within a terminal:
 
-    ```bash
-    sudo apt install spice-vdagent
-    ```
+    a. Create a mount point on the VM:
 
- 8. Reboot your VM to have the changes take effect.
+       ```bash
+       sudo mkdir /media/shared
+       ```
 
- 9. Mount the shared directory.
+    b. Mount the shared volume as type `9p`:
 
- 10. Within the VM, mount the shared directory by running the following from
-     within a terminal:
+       ```bash
+       sudo mount -t 9p -o trans=virtio,version=9p2000.L share /media/shared/
+       ```
 
-     a. Create a mount point on the VM:
-
-        ```bash
-        sudo mkdir /media/shared
-        ```
-
-     b. Mount the shared volume as type `9p`:
-
-        ```bash
-        sudo mount -t 9p -o trans=virtio,version=9p2000.L share /media/shared/
-        ```
-
-     c. Change the permissions (from only the VM perspective) on files and
-        directories in the shared directory, so your user (in the VM) can
-        access the files.
-
-        ```bash
-        sudo chown -R $USER /media/shared/
-        ```
+    c. Change the permissions (from only the VM perspective) on files and
+       directories in the shared directory, so your user (in the VM) can
+       access the files.
 
        (Note: You can leave `$USER` as-is because the shell will automatically
        replace it with your username before the command is run.  You can see
        this by running `echo $USER`.)
 
-     d. Test your new mount by listing directory contents:
+       ```bash
+       sudo chown -R $USER /media/shared/
+       ```
 
-        ```bash
-        ls -l /media/shared
-        ```
+    d. Test your new mount by listing directory contents:
 
-     e. Add the following line to `/etc/fstab` such that the shared volume is
-        mounted automatically at boot:
+       ```bash
+       ls -l /media/shared
+       ```
 
-        ```
-        share	/media/shared	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
-        ```
+    e. Use the following command to ensure that the shared volume is
+       mounted automatically at boot:
 
-     f. Optionally create a symbolic link to the share mount from your home
-        directory:
+       ```
+       sudo -e /etc/fstab
+       ```
 
-        ```bash
-        ln -s /media/shared/ ~/shared
-        ls -l ~/shared
-        ```
+       (`sudo -e` safely opens a file that needs root privileges to edit.)
 
- 10. Follow steps 15 through 19 from the
+       Add the following line to the end of the file:
+
+       ```
+       share	/media/shared	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
+       ```
+
+       Then close and save the file.
+
+    f. Optionally create a symbolic link to the share mount from your home
+       directory:
+
+       ```bash
+       ln -s /media/shared/ ~/shared
+       ls -l ~/shared
+       ls -l ~/shared/
+       ```
+
+       (Note that the last two commands are slightly different.  The first
+       shows the symbolic link itself -- and what it points to.  The second
+       shows the contents of the directory referred to by the symbolic link.)
+
+ 8. Follow steps 15 through 19 from the
      [VirtualBox instructions](#virtualbox-7x-for-windows-linux-and-macos-amd64-only).
