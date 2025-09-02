@@ -168,9 +168,9 @@ might need to adapt these instructions.
      f. Log in to the VM after it reboots.  Use the regular account (i.e.,
         non-root) username and password that you created during installation.
 
-    This will allow you to do things like set up a shared drive between host
-    and VM and use a shared clipboard, which will be accomplished in a
-    subsequent step.
+     This will allow you to do things like set up a shared drive between host
+     and VM and use a shared clipboard, which will be accomplished in a
+     subsequent step.
 
  12. On the host machine, do the following to set up a shared folder:
 
