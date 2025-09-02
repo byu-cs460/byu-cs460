@@ -2,19 +2,28 @@
 
 Many of the assignments for this class are hosted in a GitHub repository.
 Individual assignments are in subfolders of that repository.  Within the folder
-for every assignment is a `README.md` file, containing the description for the
-assignment.  The folder also contains other files that are part of the
-assignment.  The description of the assignment is often best viewed on the
-GitHub site itself with a Web browser.  The accompanying files can be
-downloaded directly from the folder, with a Web browser. However, creating a
-_mirror_ of the repository helps you to more easily download files associated
-with assignments, keep them up-to-date, and simultaneously version your own
-code by committing it to your own private GitHub repository.
+for every assignment is a `README.md` file that contains the description for
+the assignment.  The `README.md` is best viewed on the GitHub site itself using
+a Web browser.  Alternatively, you can view the `README.md` from within VSCode,
+by right-clicking the file and selecting the "Open Preview" option.  Every
+assignment folder also contains other files that are part of the assignment.
 
-The path of the class "upstream" repository and the name of own "private"
-repository will be given to you elsewhere and will be referred to in this
-document as "CLASS\_REPO\_PATH" and "PRIVATE\_REPO\_NAME", respectively.
-Additionally, "USERNAME" refers to your GitHub username.
+To download and use the assignment folders and files, you will be creating a
+and managing a _mirror_ of the class repository.  This will help ensure that
+you have _all_ the files for the assignments, keep them up-to-date, and
+simultaneously version your own code by committing it to your own private
+GitHub repository.
+
+The path of the upstream class repository and the name of your own private
+repository have been given to you in the instructions to this assignment and
+will be referred to in this document as "CLASS\_REPO\_PATH" and
+"PRIVATE\_REPO\_NAME", respectively.  Additionally, "USERNAME" refers to your
+GitHub username.  Thus, the following replacements should be made throughout
+this document:
+
+ - "CLASS\_REPO\_PATH": replace with the upstream class repository.
+ - "PRIVATE\_REPO\_NAME": replace with the name of your own private repository.
+ - "USERNAME": replace with your GitHub username.
 
 These instructions have you first create your mirrored repository on your
 primary development system and then optionally create clones of that repository
@@ -23,7 +32,9 @@ on other systems.
 
 # Preparation
 
-Log on to your primary development system, either directly or remotely via SSH.
+Your primary development system has been provided to you in the instructions
+for this assignment.  Log on to your primary development system, either
+directly or remotely via SSH.
 
 
 # Register an SSH Key for Use with GitHub
@@ -72,7 +83,7 @@ do not need to do this again.
     ```
 
     Optionally enter a passphrase at the next prompt.  This makes sure that the
-    private key cannot be used without the passphrase. This is good practice
+    private key cannot be used without the passphrase.  This is good practice
     for a shared machine in particular:
 
     ```
@@ -101,7 +112,7 @@ This is a one-time process to create and configure your own private GitHub
 repository for referencing and committing changes.  Your private repository
 will also be a mirror of the upstream class repository.
 
- 1. Create the private repository as a new repository on GitHub. Follow steps 1
+ 1. Create the private repository as a new repository on GitHub.  Follow steps 1
     through 6 in the
     [official documentation](https://docs.github.com/en/get-started/quickstart/create-a-repo#create-a-repository),
     adhering to the following:
@@ -111,9 +122,11 @@ will also be a mirror of the upstream class repository.
     - Make sure the visibility of the repository is _Private_ (Step 4).
     - Do _not_ check the box "Initialize this repository with a README" (Step 5).
 
- 2. Please double-check that your repository is _private_.
+ 2. Double-check that:
+    - your repository is _private_; and
+    - your repository is _empty_.
 
- 3. Clone the upstream repository by running the following from the
+ 3. Clone the upstream class repository by running the following command in the
     terminal:
 
     (Substitute "CLASS\_REPO\_PATH" with the path of the upstream class
@@ -144,7 +157,8 @@ will also be a mirror of the upstream class repository.
 
 # Create a Clone of Your Private Repository
 
-This is a one-time process to clone the private repository you have created.
+This is a one-time process to create a clone of the private repository you have
+created.
 
  1. Clone your new, private repository, which is now a mirror of the upstream
     class repository:
@@ -167,6 +181,14 @@ This is a one-time process to clone the private repository you have created.
     git remote -v
     ```
 
+    Running `git remote -v` should produce four lines of output.  The two items
+    that start with "origin" should point to your private repository, i.e.,
+    "USERNAME/PRIVATE\_REPO\_NAME".  The two items that start with "upstream"
+    should point to the class repository, i.e., "CLASS\_REPO\_PATH".  The
+    presence of these entries means that your clone is associated primarily
+    with your private repo ("origin"), and secondarily to the upstream class
+    repository ("upstream").
+
 
 # Create Additional Clones of Your Private Repository (Optional)
 
@@ -180,9 +202,11 @@ on _that_ machine.  Just remember that you will need to keep all clones
 
 # Update Your Mirrored Repository from the Upstream
 
-Do this every time you would like to pull down the changes from the upstream
-repository and integrate them into your own repository.  Remember that you will
-need to do this for any and all clones
+Throughout the semester we will be updating the class repository with changes
+that seem appropriate.  Every time you start an assignment, and as often as you
+like, please run the commands listed below to pull down the changes from the
+upstream class repository and integrate them into your own private repository.
+Remember that you will need to do this for any and all clones
 [that you have made of your repository](#create-a-clone-of-your-private-repository).
 
 
@@ -220,20 +244,37 @@ need to do this for any and all clones
 
 # Commit and Push Local Changes to Your Private Repo
 
-Do this every time you want to commit changes to the clone of your repository
-and push them out to the repository:
+It is best practice to regularly commit your changes and push them to the
+origin.  Follow the steps below every time you want to commit changes to the
+clone of your repository and push them out to your private repository on
+GitHub:
 
- 1. Commit any local changes that you've made (i.e., in your own development):
+ 1. Mark modified files as "staged" for the next commit.
 
     (Replace "..." with the names of any files or directories that have
     changes.)
 
     ```bash
-    git commit ...
+    git add ...
     ```
 
- 2. Push out your local commits to your repository:
+ 2. Commit files staged for commit.
+
+    ```bash
+    git commit
+    ```
+
+    Note that will open an editor within which you can enter a message
+    associated with your commit.  Alternatively you can use the `-m`
+    command-line option to add your message directly from the command line,
+    without using an enter.  For example: `git commit -m "improve my code"`.
+
+ 3. Push your local commits to your private repository on GitHub:
 
     ```bash
     git push
     ```
+
+NOTE: The add and commit process above isn't the only way to commit your local changes.
+The offical git documentation for [`git commit`](https://git-scm.com/docs/git-commit) lists
+several other ways you can commit your local changes.
