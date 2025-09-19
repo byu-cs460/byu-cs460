@@ -65,7 +65,7 @@ Take a look at the contents of `scenario1a.cfg`.  Then run the following to
 start it up:
 
 ```
-$ cougarnet --display --disable-ipv6 scenario1a.cfg
+cougarnet --display --disable-ipv6 scenario1a.cfg
 ```
 
 The `--disable-ipv6` option is used on the command line here and throughout the
@@ -110,7 +110,7 @@ Now look at the contents of `scenario1.cfg`, and run the following to start it
 up:
 
 ```
-$ cougarnet --display --disable-ipv6 scenario1.cfg
+cougarnet --display --disable-ipv6 scenario1.cfg
 ```
 
 It is similar in some senses, but very different in some others.  Note the
@@ -300,8 +300,8 @@ implementation matches appropriately.
 When it is working properly, test also with the `--terminal=none` option:
 
 ```
-$ cougarnet --disable-ipv6 --terminal=none scenario1.cfg
-$ cougarnet --disable-ipv6 --terminal=none scenario2.cfg
+cougarnet --disable-ipv6 --terminal=none scenario1.cfg
+cougarnet --disable-ipv6 --terminal=none scenario2.cfg
 ```
 
 You can also use the driver provided for
@@ -360,9 +360,9 @@ When your switch implementation is working properly, test all three scenarios
 with the `--terminal=none` option:
 
 ```
-$ cougarnet --disable-ipv6 --terminal=none scenario1.cfg
-$ cougarnet --disable-ipv6 --terminal=none scenario2.cfg
-$ cougarnet --disable-ipv6 --terminal=none scenario3.cfg
+cougarnet --disable-ipv6 --terminal=none scenario1.cfg
+cougarnet --disable-ipv6 --terminal=none scenario2.cfg
+cougarnet --disable-ipv6 --terminal=none scenario3.cfg
 ```
 
 You can also use the driver provided for
