@@ -10,7 +10,7 @@ class Switch(BaseHost):
         # do any initialization here...
 
     def _handle_frame(self, frame: bytes, intf: str) -> None:
-        print('Received frame: %s' % repr(frame))
+        print('Received frame: %s' % frame.hex(' '))
 
 def main():
     Switch().run()

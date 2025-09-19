@@ -125,7 +125,7 @@ that it is seeing on its interfaces.  You can see this in `switch.py`:
 
 ```python
 def _handle_frame(self, frame, intf):
-    print('Received frame: %s' % repr(frame))
+    print('Received frame: %s' % frame.hex(' '))
 ```
 
 Your job, of course, is to modify the behavior of `_handle_frame()` in
@@ -281,14 +281,21 @@ Then implement a basic switch in `switch.py` with the following functionality:
  - A broadcast frame (i.e., having destination MAC address `ff:ff:ff:ff:ff:ff`)
    is forwarded as-is to all interfaces, except that from which it originated.
 
-Note that it might be easiest to start with basic switch functionality, then
-implement the aging time.  See the [Help](#helps) section for an
-[Ethernet frame reference](#ethernet-frames), as well as implementation tips
-and examples.
+Use the following hints for getting started:
 
-Test your implementation against scenarios 1 and 2.  Determine the appropriate
-output--that is, which hosts should receive which frames--and make sure that
-the output for your switch implementation matches appropriately.
+ - Look at the example from the Cougarnet documentation involving a
+   [custom hub](https://github.com/cdeccio/cougarnet/blob/main/README.md#three-hosts-connected-by-a-custom-hub).
+   That provides a working example of handling incoming frames and sending
+   outgoing frames.
+ - Start with basic switch functionality, then implement the aging time.
+ - See the [Help](#helps) section for an
+   [Ethernet frame reference](#ethernet-frames), as well as implementation tips
+   and examples.
+
+Test your implementation against scenarios 1 and 2 (i.e., using `scenario1.cfg`
+and `scenario2.cfg`).  Determine the appropriate output--that is, which hosts
+should receive which frames--and make sure that the output for your switch
+implementation matches appropriately.
 
 When it is working properly, test also with the `--terminal=none` option:
 
@@ -433,67 +440,50 @@ The `b` prefix is always used with `bytes` objects to distinguish them from
 notation indicates that the next two characters are hexadecimal values
 containing the actual value of the byte.
 
+Note that you can present them in a more readable manner, using `.hex()` (with
+optional separator as an argument).  For example:
+
+```python
+>>> bytes1.hex(' ')
+'01 02 03 04 0a 0b 0c 0d'
+>>> bytes2.hex(' ')
+'05 06 07 08 09'
+```
+
 A "slice" of `bytes` objects produces a new `bytes` object with only the
 designated sequence.  For example, the following gets only the first two bytes
 of `bytes1` (i.e., indexes 0 and 1):
 
 ```python
->>> bytes1[:2]
-b'\x01\x02'
+>>> bytes1[:2].hex(' ')
+'01 02'
 ```
 
 Likewise, the following gets only the fifth and sixth bytes of `bytes1` (i.e.,
 indexes 4 and 5):
 
 ```python
->>> bytes1[4:6]
-b'\n\x0b'
+>>> bytes1[4:6].hex(' ')
+'0a 0b'
 ```
 
 `bytes` objects can be concatenated together to yield a new `bytes` object:
 
 ```python
->>> bytes1 + bytes2
-b'\x01\x02\x03\x04\n\x0b\x0c\r\x05\x06\x07\x08\t'
+>>> (bytes1 + bytes2).hex(' ')
+'01 02 03 04 0a 0b 0c 0d 05 06 07 08 09'
 ```
 
 Or even:
 
 ```python
->>> bytes1[:2] + bytes1[4:6]
-b'\x01\x02\n\x0b'
-```
-
-Printing out the representation of `bytes` objects can be a bit confusing.  For
-example:
-
-```python
->>> bytes1[4:6]
-b'\n\x0b'
-```
-
-In this case, `\n` is the ASCII equivalent of hexadecimal 0xa (i.e., `\x0a`) or
-decimal 10.  To be "helpful", Python prints out the ASCII equivalent.
-
-To print out everything as hexademical, use the `binascii` module:
-
-```python
->>> import binascii
->>> binascii.hexlify(bytes1[4:6])
-b'0a0b'
-```
-
-Note that the result is still a `bytes` object.  To convert to `str`, use the
-`decode` method:
-
-```python
->>> binascii.hexlify(bytes1[4:6]).decode('latin1')
-'0a0b'
+>>> (bytes1[:2] + bytes1[4:6]).hex(' ')
+'01 02 0a 0b'
 ```
 
 Finally, to convert `bytes` objects to integers, use the `struct` module.  For
 example, to put the first two bytes from a `bytes` sequence (`bytes1`) into a
-short (two-byte) integer:
+short (two-byte) integer, use `struct.unpack()`:
 
 ```python
 >>> import struct
@@ -519,37 +509,36 @@ two one-byte integers (equivalent to `unsigned char` in C):
 '02'
 ```
 
-To convert a short (two-byte) integer to a `bytes` object:
+To convert a short (two-byte) integer to a `bytes` object, use `struct.pack()`:
 
 ```python
->>> struct.pack('!H', 0x0102)
-b'\x01\x02'
+>>> struct.pack('!H', 0x0102).hex(' ')
+'01 02'
 ```
 
 or:
 
 ```python
->>> struct.pack('!H', 258)
-b'\x01\x02'
+>>> struct.pack('!H', 258).hex(' ')
+'01 02'
 ```
 
 To convert two one-byte integers to a `bytes` object:
 
 ```python
->>> struct.pack('!BB', 0x1, 0x2)
-b'\x01\x02'
+>>> struct.pack('!BB', 0x1, 0x2).hex(' ')
+'01 02'
 ```
 
 or:
 
 ```python
->>> struct.pack('!BB', 1, 2)
-b'\x01\x02'
+>>> struct.pack('!BB', 1, 2).hex(' ')
+'01 02'
 ```
 
 For more info see the following:
  - [`bytes` documentation](https://docs.python.org/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview)
- - [`binascii` documentation](https://docs.python.org/3/library/binascii.html)
  - [`struct` documentation](https://docs.python.org/3/library/struct.html)
 
 
