@@ -329,17 +329,14 @@ Now add implementation for VLANs and trunking according to the following:
    and used to determine the interface(s) (if any) to which the frame should be
    forwarded.
 
-Note that when a switch is initialized, it is populated with information about
-each interface, including the VLAN it is associated with.  You can retrieve a
-list of objects containing information for all "physical" interfaces on the
-system with the `physical_interfaces_info()` method of your Switch instance
-(inherited from the `BaseHost` class).  You can access the MAC address and
-interface name associated with each interface by accessing using
-dictionary-like syntax on the object: `myobj['address']` and `myobj['ifname']`.
-You can use the `int_to_vlan` attribute to map an interface name to the
-VLAN for that interface, and the `is_trunk_link()` method will identify a trunk
-link. More information can be found in the
-[documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames).
+Note that when a switch is created, it contains information about each
+interface, including the VLAN it is associated with.  You can retrieve a
+list of all the switch's interfaces with the `physical_interfaces()` method of
+your Switch instance (inherited from the `BaseHost` class).  You can use the
+`int_to_vlan` attribute to map an interface name to the VLAN for that
+interface, and the `is_trunk_link()` method will identify a trunk link. More
+information can be found in the
+[documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#basehost-api).
 
 See the [Help](#helps) section for more, including an
 [802.1Q frame reference](#ethernet-frames), and implementation tips and
@@ -551,7 +548,7 @@ explains how frames can be sent and received using the methods provided by the
 `_handle_frame()`, and `send_frame()` methods very useful.  These methods are
 demonstrated in a working example of a hub (`class Hub`), which forwards frames
 like a switch but does not learn outgoing ports associated with MAC addresses (see the
-[documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#sending-and-receiving-frames)).
+[documentation](https://github.com/cdeccio/cougarnet/blob/main/README.md#hub-example)).
 
 
 ## Other Helps
