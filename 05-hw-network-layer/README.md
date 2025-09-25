@@ -156,7 +156,7 @@ tells `ping` to only wait for one second for a response.)
 Let's now add an entry to `a`'s forwarding table.  The general formula is this:
 
 ```
-$ sudo ip route add <prefix> via <next_hop> dev <int>
+sudo ip route add <prefix> via <next_hop> dev <int>
 ```
 
 where `<prefix>` is an IP prefix (e.g., `192.0.2.0/24`), `<int>` is the name of
@@ -315,7 +315,7 @@ two hosts, `h1` and `h2`, separated by five routers, `r1` through `r5`.
 Run the following command to create and start the network:
 
 ```bash
-cougarnet --display-file=net2.png --disable-ipv6 --wireshark=h1-r1,h2-r5 multi-hop.cfg
+cougarnet --display-file=net2.png --disable-ipv6 --terminal=h1 --wireshark=h1-r1,h2-r5 multi-hop.cfg
 ```
 
 ![multi-hop.cfg](multi-hop.png)
@@ -339,13 +339,18 @@ A few notes about the config file and the network it describes:
  - The maximum tranmission unit (MTU) for `h1` through `r3` is 1500, but the
    MTU for `r3` through `h2` is 500.
 
-By default, all terminals will show up, but you can adjust this with the
-`--terminal` option, if it is helpful to you.
+Also note with the given command line, Wireshark will see packets on the link
+`h1-r1` and the link `h2-h5`.  This means that you might see the same packet
+twice, e.g., if it traverses both links.
+
+For the exercises that follow, it will be easiest to observe what is going on
+if you sort the packet capture by time, by clicking on the "Time" header.
 
 
 ## Exercises
 
-Run the following to send an ICMP echo request/reply between `h1` and `h2`:
+For questions 23 and 24, run the following from `h1` to send a single ICMP echo
+request/reply between `h1` and `h2`:
 
 ```
 h1$ ping -c 1 -W 1 10.0.1.2
@@ -357,54 +362,81 @@ h1$ ping -c 1 -W 1 10.0.1.2
      packets that it creates, how many "hops" (i.e., routers) did the ICMP echo
      response pass through?
 
-For each part of this problem, run the given command from `h1`, look at the
-Wireshark capture, and then respond with 1) the host or router the sent the
-ICMP error and 2) a *brief* description of why the ICMP error was sent.
+For the next several problems, run the given command from `h1`, look at the
+Wireshark capture and the program output, and then respond with 1) the IP
+address of the host or router the sent the ICMP error message and 2) a *brief*
+description of the cause of the ICMP error that was sent.
 
- ```
- h1$ ping -c 1 -W 1 -t 3 10.0.1.2
- ```
- (`-t` sets the starting TTL)
+Command:
+
+```
+h1$ ping -c 1 -W 1 -t 3 10.0.1.2
+```
+
+(Note that `-t` sets the starting TTL)
 
  25. Which device sent the ICMP message?
  26. What was the cause of the ICMP message?
 
+Command:
+
 ```
 h1$ ping -c 1 -W 1 10.0.1.4
 ```
+
  27. Which device sent the ICMP message?
  28. What was the cause of the ICMP message?
 
+Command:
 
 ```
 h1$ ping -c 1 -W 1 10.0.3.1
 ```
+
  29. Which device sent the ICMP message?
  30. What was the cause of the ICMP message?
 
+Command:
+
 ```
-h1$ dig @10.0.1.2 +timeout=1 +tries=1 . NS
+h1$ echo foo | nc -u 10.0.1.2 1234
 ```
-(`dig` is a command-line DNS tool.  For the purposes of this
-assignment, just know that it is sending a single UDP datagram to
-10.0.1.2 on port 53--and also, there is nothing listening on port 53
-on `h2`. :))
+
+(This command uses the `nc` (netcat) command to send a single UDP datagram
+(`-u`) to 10.0.1.2 port 1234 containing the content "foo".)
 
  31. Which device sent the ICMP message?
  32. What was the cause of the ICMP message?
 
 Run the following command from `h1`, which, sends an ICMP echo request of size
-1500 to 10.0.1.2:
+1448 (payload 1440 + eight-byte ICMP header) to 10.0.1.2:
 
 ```
-h1$ ping -c 1 -W 1 -s 1500 -M dont 10.0.1.2
+h1$ ping -c 1 -W 1 -s 1440 -M dont 10.0.1.2
 ```
 
-Use wireshark to analyze the IP fragments resulting from the ICMP echo request.
-Then answer the questions.
+It is probably easiest to analyze the packets with Wireshark's "reassembly"
+feature disabled.  To do this, carry out the following steps.  In the Wireshark
+window, right-click on one of the ICMP packets, then hover over "Protocol
+Preferences" in the menu that appears, then "Internet Protocol Version 4".
 
- 33. How many total IP fragments result from the ICMP request?
+Use wireshark to analyze the ICMP echo request and echo response, and answer
+the following questions.
 
- 34. What are the sizes of each fragment, including the IP packet header?
+ 34. Was the echo request fragmented between `h1` and `r1`?
 
- 35. What are the offset values of each fragment, in eight-byte words?
+ 35. Was the echo request fragmented between `r5` and `h2`?
+
+ 36. Was the echo response fragmented between `h2` and `r5`?
+
+ 37. Was the echo response fragmented between `r1` and `h1`?
+
+ 38. Based on your observations, where is fragmentation initiated?
+
+ 39. Based on your observations, where does reassembly happen?
+
+ 40. How many total IP fragments result from the ICMP request?
+
+ 41. What are the sizes of each fragment, including the IP packet header?
+
+ 42. What are the offset values of each fragment, in eight-byte words?
