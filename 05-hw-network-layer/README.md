@@ -423,20 +423,24 @@ Preferences" in the menu that appears, then "Internet Protocol Version 4".
 Use wireshark to analyze the ICMP echo request and echo response, and answer
 the following questions.
 
- 34. Was the echo request fragmented between `h1` and `r1`?
+ 33. Was the ICMP echo request fragmented between `h1` and `r1`?
 
- 35. Was the echo request fragmented between `r5` and `h2`?
+ 34. Was the ICMP echo request fragmented between `r5` and `h2`?
 
- 36. Was the echo response fragmented between `h2` and `r5`?
+ 35. Was the ICMP echo response fragmented between `h2` and `r5`?
 
- 37. Was the echo response fragmented between `r1` and `h1`?
+ 36. Was the ICMP echo response fragmented between `r1` and `h1`?
 
- 38. Based on your observations, where is fragmentation initiated?
+ 37. Based on your observations, where is fragmentation initiated?
 
- 39. Based on your observations, where does reassembly happen?
+ 38. Based on your observations, where does reassembly happen?
 
- 40. How many total IP fragments result from the ICMP request?
+ 39. How many total IP fragments result from the ICMP request?
 
- 41. What are the sizes of each fragment, including the IP packet header?
+ 40. What is the size of the payload of each IP fragment, i.e., excluding the
+     IP packet header?
 
- 42. What are the offset values of each fragment, in eight-byte words?
+ 41. What is the offset value of each fragment, in eight-byte words?
+
+ 42. What is the combined size of the payloads, including IP the IP packet
+     headers?
