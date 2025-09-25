@@ -435,12 +435,13 @@ the following questions.
 
  38. Based on your observations, where does reassembly happen?
 
- 39. How many total IP fragments result from the ICMP request?
+ 39. How many total IP fragments result from the fragmentation of the ICMP
+     request?
 
  40. What is the size of the payload of each IP fragment, i.e., excluding the
      IP packet header?
 
  41. What is the offset value of each fragment, in eight-byte words?
 
- 42. What is the combined size of the payloads, including IP the IP packet
-     headers?
+ 42. What is the combined size of the IP datagrams of all fragments, including
+     the IP packet headers?
