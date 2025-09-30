@@ -419,6 +419,7 @@ It is probably easiest to analyze the packets with Wireshark's "reassembly"
 feature disabled.  To do this, carry out the following steps.  In the Wireshark
 window, right-click on one of the ICMP packets, then hover over "Protocol
 Preferences" in the menu that appears, then "Internet Protocol Version 4".
+Also, remember to have the packets sorted by "Time".
 
 Use wireshark to analyze the ICMP echo request and echo response, and answer
 the following questions.
@@ -436,12 +437,16 @@ the following questions.
  38. Based on your observations, where does reassembly happen?
 
  39. How many total IP fragments result from the fragmentation of the ICMP
-     request?
+     request?  Hint: because the ICMP header is contained in the first
+     fragment, Wireshark will make the first packet look like an ICMP packet,
+     until you look more closely at the IP header.
 
- 40. What is the size of the payload of each IP fragment, i.e., excluding the
-     IP packet header?
+ 40. What is the size of the payload of each IP fragment of the ICMP request,
+     i.e., excluding the IP packet header?  Hint: make sure you are looking at
+     the values in the IP header to point you in the right direction.
 
- 41. What is the offset value of each fragment, in eight-byte words?
+ 41. What is the offset value of each fragment of the ICMP request, in
+     eight-byte words?
 
- 42. What is the combined size of the IP datagrams of all fragments, including
-     the IP packet headers?
+ 42. What is the combined size of the IP datagrams of all fragments of the ICMP
+     request, including the IP packet headers?
