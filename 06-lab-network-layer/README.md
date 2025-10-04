@@ -469,7 +469,7 @@ before you begin, as it might be easier for you to do one before the other.
 
  5. Fill in the appropriate return value for each of the doctests for
     `ForwardingTable.get_entry()` in `forwarding_table.py`.
-    `(None, None)` is currently used as a placeholder for each
+    `('someintf', 'someip')` is currently used as a placeholder for each
     output, but the return value _should_ yield a tuple of type (`str`, `str`),
     corresponding to outgoing interface name and next hop-IP address (or
     `None`).
