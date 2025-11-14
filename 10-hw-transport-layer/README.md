@@ -200,7 +200,7 @@ from the socket's "ready" buffer and passed to the application.  Second, the
 `send()` call on the socket `s` on host `a` has not returned.  To further
 examine this, answer the following questions.
 
- 17. Look at the last TCP packet from host 10.0.0.1.  What is the value of the
+ 17. Look at the last TCP packet from host 10.0.0.2.  What is the value of the
      window field in the packet?
 
  18. What is the cause of the value observed in the window field?
