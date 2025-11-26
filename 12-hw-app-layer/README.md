@@ -117,12 +117,13 @@ Answer the following questions, using the streams corresponding to the HTTP
 requests and responses issued above.  For each question that asks "why",
 provide a brief but specific explanation.
  
- 1. In HTTP request 1, what was the domain sent by the client in the Host
-    header of the HTTP request?
+ 1. In HTTP request 1, what was the domain domain sent by the client in the
+    Host header of the HTTP request?  (Note: consider only the domain name, not
+    the port, if one is specified.)
  2. In HTTP request 1, was a cookie sent by the client?  Why or why not?
  3. In HTTP request 1, what was the "domain" attribute in the cookie returned
     by the server?
- 4. In HTTP request 2, what was the domain sent by the client in the Host
+ 4. In HTTP request 2, what was the domain name sent by the client in the Host
     header of the HTTP request?
  5. In HTTP request 2, was the cookie sent by the client?  What does the answer
     (yes/no) tell you about the ability or inability of the server to set a
@@ -130,7 +131,7 @@ provide a brief but specific explanation.
     domain name in the URL)?
  6. In HTTP request 2, what was the "domain" attribute in the cookie returned
     by the server?
- 7. In HTTP request 3, what was the domain sent by the client in the Host
+ 7. In HTTP request 3, what was the domain name sent by the client in the Host
     header of the HTTP request?
  8. In HTTP request 3, was the cookie sent by the client?  What does the answer
     (yes/no) tell you about the ability or inability of the server to set a
@@ -294,10 +295,11 @@ This part is an exercise to help you understand SMTP.
 
 ## Getting Started
 
- 1. Install swaks (Swiss Army Knife SMTP). Run the following to install swaks:
+ 1. Install swaks (Swiss Army Knife SMTP) and aiosmtpd, a python-based SMTP
+    server. Run the following to install these packages:
 
     ```
-    sudo apt install swaks
+    sudo apt install swaks python3-aiosmtpd
     ```
 
  2. Start cougarnet.  File `h2-s1.cfg` contains a configuration file that
@@ -309,10 +311,10 @@ This part is an exercise to help you understand SMTP.
     cougarnet --display --wireshark=a-b h2-s1.cfg
     ```
 
- 3. Start a "debugging" SMTP server on host `b`:
+ 3. Start an SMTP server on host `b`:
 
     ```bash
-    b$ sudo python3 -m smtpd -n --class DebuggingServer 0.0.0.0:25
+    b$ sudo python3 -m aiosmtpd -n -l 0.0.0.0:25
     ```
 
     This Python SMTP server simply interacts with clients over SMTP and prints
