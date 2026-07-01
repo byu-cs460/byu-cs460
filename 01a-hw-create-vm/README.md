@@ -237,10 +237,10 @@ might need to adapt these instructions.
  18. In the VM, open a terminal, and run the following to install a few
      packages that will be useful for you in this class:
 
-     ```
-     sudo apt install git tmux vim build-essential make
-     sudo apt install wireshark tcpdump iptables
-     sudo apt install python3-{scapy,pip} virtualenv
+     ```bash
+     sudo apt install git tmux vim build-essential make \
+         wireshark tcpdump iptables swaks curl \
+         python3-scapy python3-pip virtualenv
      ```
 
      At the prompt "Should non-superusers be able to capture packets?" (for
