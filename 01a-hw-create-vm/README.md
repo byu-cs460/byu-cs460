@@ -374,13 +374,21 @@ might need to adapt these instructions.
 
        ```bash
        ln -s /media/shared/ ~/shared
+       ```
+
+       Check the status of the symbolic link.  This command should show that
+       it points to `/media/shared`.
+
+       ```bash
        ls -l ~/shared
+       ```
+
+       Check the contents of the directory via the symbolic link.  (Note the
+       trailing slash `/`).
+ 
+       ```bash
        ls -l ~/shared/
        ```
 
-       (Note that the last two commands are slightly different.  The first
-       shows the symbolic link itself -- and what it points to.  The second
-       shows the contents of the directory referred to by the symbolic link.)
-
- 8. Follow steps 15 through 19 from the
+ 9. Follow steps 15 through 19 from the
      [VirtualBox instructions](#virtualbox-7x-for-windows-linux-and-macos-amd64-only).
