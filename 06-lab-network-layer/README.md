@@ -463,12 +463,12 @@ before you begin, as it might be easier for you to do one before the other.
 
  4. Fill out the following method (marked with `FIXME`):
 
-    - `ForwardingTable.get_forwarding_entry()` (approx. 10 lines of code)
+    - `ForwardingTable.get_entry()` (approx. 10 lines of code)
 
       Remember to use longest prefix match!
 
  5. Fill in the appropriate return value for each of the doctests for
-    `ForwardingTable.get_forwarding_entry()` in `forwarding_table.py`.
+    `ForwardingTable.get_entry()` in `forwarding_table.py`.
     `('someintf', 'someip')` is currently used as a placeholder for each
     output, but the return value _should_ yield a tuple of type (`str`, `str`),
     corresponding to outgoing interface name and next hop-IP address (or

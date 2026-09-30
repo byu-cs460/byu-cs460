@@ -237,14 +237,14 @@ might need to adapt these instructions.
  18. In the VM, open a terminal, and run the following to install a few
      packages that will be useful for you in this class:
 
+     (At the prompt "Should non-superusers be able to capture packets?" (for
+     `wireshark`), select "No".  We will handle that with the next step.)
+
      ```bash
      sudo apt install git tmux vim build-essential make \
          wireshark tcpdump iptables swaks curl \
          python3-scapy python3-pip virtualenv
      ```
-
-     At the prompt "Should non-superusers be able to capture packets?" (for
-     `wireshark`), select "No".  We will handle that with the next step.
 
      Next run the following to give `tcpdump`, `wireshark`, and `dumpcap`
      targeted capabilities, so an unprivileged user can run them to observe

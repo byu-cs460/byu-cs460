@@ -197,6 +197,7 @@ class Scenario1(Lab4Tester):
                 'dstaddr': icmp_match.group('dstaddr'),
                 'srcport': icmp_match.group('srcport'),
                 'dstport': icmp_match.group('dstport'),
+                'msg': icmp_match.group('msg')
                 }
         if hostname != 'a':
             sys.stderr.write('ICMP error message was expected at a, not %s\n' % \
@@ -376,10 +377,10 @@ class Scenario2(Lab4Tester):
             sys.stderr.write('Expected an SYN RST packet at a or c, if anything.\n')
             return False
         host2_correct = { 
-                        'srcport': host_match.group('srcaddr'),
-                        'dstport': host_match.group('dstaddr'),
-                        'srcaddr': host_match.group('srcport'),
-                        'dstaddr': host_match.group('dstport'),
+                        'srcport': host_match.group('dstport'),
+                        'dstport': host_match.group('srcport'),
+                        'srcaddr': host_match.group('dstaddr'),
+                        'dstaddr': host_match.group('srcaddr'),
                         'flags': 'R' }
         host2_observed = {
                 'srcport': host2_match.group('srcport'),
