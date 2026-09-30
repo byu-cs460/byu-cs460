@@ -13,8 +13,13 @@ Use the following commands to install the build and run-time dependencies for
 Cougarnet:
 
 ```bash
-sudo apt install openvswitch-switch frr tmux python3-pyroute2 iptables lxterminal python3-pygraphviz libgraph-easy-perl tcpdump wireshark socat
+sudo apt install openvswitch-switch tmux python3-pyroute2 iptables lxterminal python3-pygraphviz libgraph-easy-perl tcpdump wireshark socat
 ```
+
+Follow the instruction at the top of [this page](https://deb.frrouting.org/)
+to install FRR from the FRR Debian Repository.  (Note that FRR is available
+from the main Debian repository, but the Debian version is outdated and buggy,
+so it should be installed from the FRR Debian Repository instead.)
 
 ## Install Cougarnet
 
